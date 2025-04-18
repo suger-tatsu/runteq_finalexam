@@ -1,22 +1,31 @@
-<h1>ログイン</h1>
+<head>
+  <link rel="stylesheet" href="styles.css"> <!-- 外部CSSファイルをリンク -->
+</head>
+<body>
+  <h1 style="text-align: center;">ログイン</h1>
 
-<% if flash.now[:alert] %>
-  <div class="alert alert-danger"><%= flash.now[:alert] %></div>
-<% end %>
+  <% if flash.now[:alert] %>
+    <div class="alert alert-danger" style="text-align: center;"><%= flash.now[:alert] %></div>
+  <% end %>
 
+  <div style="display: flex; flex-direction: column; align-items: center; margin-top: 20px; text-align: center;">
+    <%= form_with(url: login_path, local: true) do |form| %>
+      <div>
+        <%= form.label :email, "メールアドレス" %>
+        <%= form.email_field :email, required: true, class: 'input-field' %>
+      </div>
 
-<%= form_with(url: login_path, local: true) do |form| %>
-  <div>
-    <%= form.label :email, "メールアドレス" %>
-    <%= form.email_field :email, required: true %>
+      <div>
+        <%= form.label :password, "パスワード" %>
+        <%= form.password_field :password, required: true, class: 'input-field' %>
+      </div>
+
+      <div>
+        <%= form.submit "ログイン", class: 'button' %>
+      </div>
+    <% end %>
+
+    <!-- トップページに戻るボタン -->
+    <%= link_to 'トップページに戻る', root_path, class: 'button' %>
   </div>
-
-  <div>
-    <%= form.label :password, "パスワード" %>
-    <%= form.password_field :password, required: true %>
-  </div>
-
-  <div>
-    <%= form.submit "ログイン" %>
-  </div>
-<% end %>
+</body>

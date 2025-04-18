@@ -1,0 +1,22 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0f0f0; /* 薄い灰色 */
+    padding: 10px 20px;
+  }
+  
+  .teacher-icon img {
+    width: 40px; /* アイコンのサイズ */
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .logout-button button {
+    background-color: #007bff; /* ボタンの色 */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+  

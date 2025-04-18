@@ -1,0 +1,24 @@
+.input-field {
+    width: 100%; /* 幅を100%にして親要素に合わせる */
+    max-width: 300px; /* 最大幅を指定 */
+    padding: 10px; /* 内部余白を追加 */
+    margin: 10px 0; /* 上下の余白を追加 */
+    border: 1px solid #ccc; /* 枠線を追加 */
+    border-radius: 5px; /* 角を丸くする */
+    font-size: 16px; /* 文字サイズを調整 */
+}
+
+.button {
+    display: block; /* ブロック要素にして幅を調整 */
+    margin: 10px auto; /* 上下のマージンを追加し、中央に配置 */
+    padding: 15px 30px; /* ボタンのサイズを大きくする */
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 18px; /* ボタンの文字サイズを大きくする */
+}
+
+.button:hover {
+    background-color: #0056b3; /* ホバー時の色 */
+}
