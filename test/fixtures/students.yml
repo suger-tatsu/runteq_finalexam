@@ -2,8 +2,8 @@
 
 one:
   student_id: 1
-  name: MyString
-  gender: MyString
+  name: MyString7
+  gender: MyString8
   height: 1.5
   weight: 1.5
   athletic_ability: 1
@@ -14,8 +14,8 @@ one:
 
 two:
   student_id: 1
-  name: MyString
-  gender: MyString
+  name: MyString9
+  gender: MyString10
   height: 1.5
   weight: 1.5
   athletic_ability: 1
