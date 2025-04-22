@@ -1,0 +1,30 @@
+<head>
+  <link rel="stylesheet" href="styles.css"> <!-- 外部CSSファイルをリンク -->
+</head>
+<body>
+
+<h1 style="text-align: center;">新規登録</h1>
+<%= form_with model: @teacher, local: true do |form| %>
+  <div style="display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
+    <div>
+      <%= form.label :name %>
+      <%= form.text_field :name, class: 'input-field' %>
+    </div>
+    <div>
+      <%= form.label :email %>
+      <%= form.email_field :email, class: 'input-field' %>
+    </div>
+    <div>
+      <%= form.label :password %>
+      <%= form.password_field :password, class: 'input-field' %>
+    </div>
+    <div>
+    <%= form.label :password_confirmation, "パスワードの確認" %>
+    <%= form.password_field :password_confirmation, class: 'input-field' %>
+    </div>
+    <div>
+    <%= form.submit "登録", class: 'button' %>
+    </div>
+    <%= link_to 'トップページに戻る', root_path, class: 'button' %>
+  </div>
+<% end %>
