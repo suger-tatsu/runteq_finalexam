@@ -1,8 +1,8 @@
-<div class="header">
+<div class="flex justify-between items-center bg-gray-200 p-4">
   <div class="teacher-icon">
-    <img src="teacher_icon.png" alt="教師アイコン" />
+    <img src="teacher_icon.png" alt="教師アイコン" class="w-10 h-10 mr-2" />
   </div>
   <div class="logout-button">
-    <%= button_to 'ログアウト', logout_path, method: :delete, class: 'logout-button' %>
+    <%= button_to 'ログアウト', logout_path, method: :delete, class: 'bg-blue-500 text-white px-4 py-2 rounded' %>
   </div>
 </div>
