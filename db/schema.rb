@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_18_170141) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_29_171032) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -21,12 +21,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_18_170141) do
     t.float "height"
     t.float "weight"
     t.integer "athletic_ability"
-    t.boolean "science"
-    t.boolean "arts"
     t.integer "leadership"
     t.integer "cooperation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "science"
+    t.integer "humanities"
     t.index ["name"], name: "index_students_on_name", unique: true
   end
 
