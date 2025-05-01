@@ -23,6 +23,10 @@ Rails.application.routes.draw do
   
   # 生徒一覧ページ
   get 'students', to: 'students#index', as: :students
+
+  get 'new_students', to: 'students#new',as: :new_students
+
+  post 'students', to: 'students#create'
   
   # 新規登録画面
   get 'register', to: 'teachers#new', as: :register
@@ -32,4 +36,6 @@ Rails.application.routes.draw do
   
   # ログアウト
   delete 'logout', to: 'sessions#destroy', as: :logout
+
+  # resources :students
 end

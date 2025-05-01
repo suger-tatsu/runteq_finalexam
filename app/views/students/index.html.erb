@@ -2,8 +2,37 @@
 <div class="flex">
   <%= render 'shared/sidebar' %>
   <main class="flex-1 p-4">
-    <table>
-      <!-- 生徒一覧のテーブル内容 -->
-    </table>
+  <h1 class="text-2xl mb-4">生徒一覧</h1>
+<%= link_to '生徒を作成する', new_students_path, class: 'bg-green-500 text-white rounded p-2 mb-4' %>
+  <table class="min-w-full bg-white border border-gray-300">
+  <thead>
+    <tr>
+      <th class="px-4 py-2 border">名前</th>
+      <th class="px-4 py-2 border">性別</th>
+      <th class="px-4 py-2 border">身長</th>
+      <th class="px-4 py-2 border">体重</th>
+      <th class="px-4 py-2 border">運動能力</th>
+      <th class="px-4 py-2 border">リーダーシップ</th>
+      <th class="px-4 py-2 border">協調性</th>
+      <th class="px-4 py-2 border">理系科目</th>
+      <th class="px-4 py-2 border">文系科目</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @students.each do |student| %>
+      <tr>
+        <td class="border px-4 py-2"><%= student.name %></td>
+        <td class="border px-4 py-2"><%= student.gender %></td>
+        <td class="border px-4 py-2"><%= student.height %></td>
+        <td class="border px-4 py-2"><%= student.weight %></td>
+        <td class="border px-4 py-2"><%= student.athletic_ability %></td>
+        <td class="border px-4 py-2"><%= student.leadership %></td>
+        <td class="border px-4 py-2"><%= student.cooperation %></td>
+        <td class="border px-4 py-2"><%= student.science %></td>
+        <td class="border px-4 py-2"><%= student.humanities %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
   </main>
 </div>

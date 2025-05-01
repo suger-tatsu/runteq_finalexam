@@ -7,8 +7,8 @@ class CreateStudents < ActiveRecord::Migration[8.0]
       t.float :height
       t.float :weight
       t.integer :athletic_ability
-      t.boolean :science
-      t.boolean :arts
+      t.integer :science
+      t.integer :humanities
       t.integer :leadership
       t.integer :cooperation
 
