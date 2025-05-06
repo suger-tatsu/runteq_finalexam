@@ -27,6 +27,17 @@ Rails.application.routes.draw do
   get 'new_students', to: 'students#new',as: :new_students
 
   post 'students', to: 'students#create'
+
+  get 'students/:id', to: 'students#show', as: :student
+  
+  # 生徒編集ページ
+  get 'students/:id/edit', to: 'students#edit', as: :edit_student
+  
+  # 生徒情報の更新
+  patch 'students/:id', to: 'students#update'
+  
+  # 生徒削除
+  delete 'students/:id', to: 'students#destroy'
   
   # 新規登録画面
   get 'register', to: 'teachers#new', as: :register
