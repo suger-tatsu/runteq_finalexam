@@ -9,6 +9,14 @@ class StudentsController < ApplicationController
   
   def create
     @student = Student.new(student_params)
+  
+    if session[:teacher_id]
+      @student.teacher_id = session[:teacher_id] # ここでteacher_idを設定
+    else
+      flash[:alert] = '教師が見つかりません。ログインしてください。'
+      redirect_to login_path and return 
+    end
+  
     if @student.save
       redirect_to students_path, notice: '生徒が作成されました'
     else
@@ -16,7 +24,30 @@ class StudentsController < ApplicationController
       render :new
     end
   end
-  
+
+  def show
+    @student = Student.find(params[:id])
+  end
+
+  def edit
+    @student = Student.find(params[:id])
+  end
+
+  def update
+    @student = Student.find(params[:id])
+    if @student.update(student_params)
+      redirect_to students_path, notice: '生徒情報が更新されました。'
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @student = Student.find(params[:id])
+    @student.destroy
+    redirect_to students_path, notice: '生徒が削除されました。'
+  end
+
   private
   
   def student_params

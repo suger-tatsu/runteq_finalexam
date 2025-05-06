@@ -1,5 +1,7 @@
 class Student < ApplicationRecord
   belongs_to :teacher
+  has_many :student_skills
+  has_many :skills, through: :student_skills
 
   validates :name, presence: true
   validates :gender, inclusion: { in: %w(男 女) }

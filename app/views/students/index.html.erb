@@ -21,7 +21,9 @@
   <tbody>
     <% @students.each do |student| %>
       <tr>
-        <td class="border px-4 py-2"><%= student.name %></td>
+        <td class="border px-4 py-2">
+        <%= link_to student.name, student_path(student), class: 'text-blue-500' %>
+        </td>
         <td class="border px-4 py-2"><%= student.gender %></td>
         <td class="border px-4 py-2"><%= student.height %></td>
         <td class="border px-4 py-2"><%= student.weight %></td>

@@ -19,23 +19,23 @@
   </div>
   <div class="mb-4">
     <%= form.label :athletic_ability, class: "block" %>
-    <%= form.number_field :athletic_ability, class: "border rounded p-2 w-full", min: 0, max: 10 %>
+    <%= form.select :athletic_ability, (0..10).to_a.map { |n| [n, n] }, { prompt: '選択してください' }, class: "border rounded p-2 w-full" %>
   </div>
   <div class="mb-4">
     <%= form.label :leadership, class: "block" %>
-    <%= form.number_field :leadership, class: "border rounded p-2 w-full", min: 0, max: 10 %>
+    <%= form.select :leadership, (0..10).to_a.map { |n| [n, n] }, { prompt: '選択してください' }, class: "border rounded p-2 w-full" %>
   </div>
   <div class="mb-4">
     <%= form.label :cooperation, class: "block" %>
-    <%= form.number_field :cooperation, class: "border rounded p-2 w-full", min: 0, max: 10 %>
+    <%= form.select :cooperation, (0..10).to_a.map { |n| [n, n] }, { prompt: '選択してください' }, class: "border rounded p-2 w-full" %>
   </div>
   <div class="mb-4">
     <%= form.label :science, class: "block" %>
-    <%= form.number_field :science, class: "border rounded p-2 w-full", min: 0, max: 10 %>
+    <%= form.select :science, (0..10).to_a.map { |n| [n, n] }, { prompt: '選択してください' }, class: "border rounded p-2 w-full" %>
   </div>
   <div class="mb-4">
     <%= form.label :humanities, class: "block" %>
-    <%= form.number_field :humanities, class: "border rounded p-2 w-full", min: 0, max: 10 %>
+    <%= form.select :humanities, (0..10).to_a.map { |n| [n, n] }, { prompt: '選択してください' }, class: "border rounded p-2 w-full" %>
   </div>
   <%= form.submit "作成", class: "bg-blue-500 text-white rounded p-2" %>
   <% if @student.errors.any? %>
