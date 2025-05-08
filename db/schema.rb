@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_06_185424) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_08_121959) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -18,6 +18,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_06_185424) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "teacher_id"
+    t.index ["name", "teacher_id"], name: "index_skills_on_name_and_teacher_id", unique: true
   end
 
   create_table "student_skills", force: :cascade do |t|
@@ -41,7 +43,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_06_185424) do
     t.integer "science"
     t.integer "humanities"
     t.integer "teacher_id"
-    t.index ["name"], name: "index_students_on_name", unique: true
+    t.index ["name", "teacher_id"], name: "index_students_on_name_and_teacher_id", unique: true
   end
 
   create_table "teachers", force: :cascade do |t|

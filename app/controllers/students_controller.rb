@@ -1,6 +1,8 @@
 class StudentsController < ApplicationController
+  before_action :set_current_teacher
+
   def index
-    @students = Student.all
+    @students =  @current_teacher.students
   end
 
   def new
@@ -9,13 +11,7 @@ class StudentsController < ApplicationController
   
   def create
     @student = Student.new(student_params)
-  
-    if session[:teacher_id]
-      @student.teacher_id = session[:teacher_id] # ここでteacher_idを設定
-    else
-      flash[:alert] = '教師が見つかりません。ログインしてください。'
-      redirect_to login_path and return 
-    end
+    @student.teacher_id = @current_teacher.id
   
     if @student.save
       redirect_to students_path, notice: '生徒が作成されました'
@@ -49,6 +45,14 @@ class StudentsController < ApplicationController
   end
 
   private
+
+  def set_current_teacher
+    @current_teacher = Teacher.find(session[:teacher_id]) if session[:teacher_id]
+    unless @current_teacher
+      flash[:alert] = '教師が見つかりません。ログインしてください。'
+      redirect_to login_path and return
+    end
+  end
   
   def student_params
     params.require(:student).permit(:name, :gender, :height, :weight, :athletic_ability, :leadership, :cooperation, :science, :humanities).tap do |whitelisted|
