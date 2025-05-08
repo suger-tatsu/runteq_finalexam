@@ -12,6 +12,11 @@
     <div><span class="font-semibold">文系:</span> <%= @student.humanities %></div>
   </div>
 
+  <div class="mb-4">
+  <h2 class="text-xl font-bold mb-2">特技:</h2>
+  <p><%= @student.skills.map(&:name).join("、") %></p> <!-- 特技の名前をカンマ区切りで表示 -->
+  </div>
+
   <div class="flex justify-between">
     <%= link_to '生徒一覧に戻る', students_path, class: 'text-blue-500 hover:underline' %>
     <%= link_to '編集', edit_student_path(@student), class: 'text-blue-500 hover:underline' %>

@@ -29,7 +29,6 @@ Rails.application.routes.draw do
   post 'students', to: 'students#create'
 
   get 'students/:id', to: 'students#show', as: :student
-  
   # 生徒編集ページ
   get 'students/:id/edit', to: 'students#edit', as: :edit_student
   
@@ -38,6 +37,21 @@ Rails.application.routes.draw do
   
   # 生徒削除
   delete 'students/:id', to: 'students#destroy'
+
+  get 'skills', to: 'skills#index', as: :skills
+
+  get 'new_skill', to: 'skills#new', as: :new_skill
+
+  post 'skills', to: 'skills#create'
+
+  get 'skills/:id', to: 'skills#show', as: :skill
+
+  get 'skills/:id/edit', to: 'skills#edit', as: :edit_skill
+  
+  patch 'skills/:id', to: 'skills#update'
+  
+  delete 'skills/:id', to: 'skills#destroy'
+
   
   # 新規登録画面
   get 'register', to: 'teachers#new', as: :register
