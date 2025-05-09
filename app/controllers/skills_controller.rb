@@ -2,18 +2,20 @@ class SkillsController < ApplicationController
     before_action :set_current_teacher
 
   def index
-    @skills = Skill.all
-    #@skills =  @current_teacher.skills
+    #@skills = Skill.all
+    @skills =  @current_teacher.skills
     @teacher = Teacher.find(params[:teacher_id]) if params[:teacher_id].present?
   end
 
   def new
     @skill = Skill.new # 新しい特技のインスタンスを作成
+    @students = current_teacher.students
   end
 
   def create
     @skill = Skill.new(skill_params) # パラメータから新しい特技を作成
     @skill.teacher_id = @current_teacher.id
+    #@students = current_teacher.students
 
     if @skill.save
       @skill.student_ids = params[:skill][:student_ids] if params[:skill][:student_ids].present?
@@ -29,6 +31,7 @@ class SkillsController < ApplicationController
 
   def edit
     @skill = Skill.find(params[:id]) # 特技の編集用インスタンスを取得
+    @students = current_teacher.students
   end
 
   def update
