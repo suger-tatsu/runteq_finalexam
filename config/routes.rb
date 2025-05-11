@@ -52,6 +52,20 @@ Rails.application.routes.draw do
   
   delete 'skills/:id', to: 'skills#destroy'
 
+  delete 'group_assignments/:id', to: 'group_assignments#destroy'
+
+  get 'group_assignments', to: 'group_assignments#index', as: :group_assignments
+
+  get 'new_group_assignment', to: 'group_assignments#new', as: :new_group_assignment
+
+  post 'group_assignments', to: 'group_assignments#create'
+
+  get 'group_assignments/:id', to: 'group_assignments#show', as: :group_assignment
+
+  get 'group_assignments/:id/edit', to: 'group_assignments#edit', as: :edit_group_assignment
+
+  patch 'group_assignments/:id', to: 'group_assignments#update'
+
   
   # 新規登録画面
   get 'register', to: 'teachers#new', as: :register

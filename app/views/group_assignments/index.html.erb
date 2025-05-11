@@ -1,0 +1,28 @@
+<%= render 'shared/header' %>
+<div class="flex">
+  <%= render 'shared/sidebar' %>
+  <main class="flex-1 p-4">
+    <h1 class="text-2xl mb-4">グループ分け一覧</h1>
+    <%= link_to 'グループを追加する', new_group_assignment_path, class: 'bg-green-500 text-white rounded p-2 mb-4' %>
+    <table class="min-w-full bg-white border border-gray-300">
+      <thead>
+        <tr>
+          <th class="px-4 py-2 border">グループ名（グループ名をクリックして編集）</th>
+          <th class="px-4 py-2 border">アクション</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @group_assignments.each do |group| %>
+          <tr>
+            <td class="border px-4 py-2">
+              <%= link_to group.title, group_assignment_path(group), class: 'text-blue-500' %>
+            </td>
+            <td class="border px-4 py-2">
+              <%= button_to '削除', group_assignment_path(group), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'text-red-500' %> <!-- 削除ボタン -->
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </main>
+</div>

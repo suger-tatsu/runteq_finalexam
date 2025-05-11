@@ -1,0 +1,44 @@
+<%= form_with(model: @group_assignment, local: true) do |form| %>
+  <div class="mb-4">
+    <%= form.label :title, "グループ名" %>
+    <%= form.text_field :title, class: "form-input" %>
+  </div>
+
+  <div class="mb-4">
+    <h2>生徒を選択</h2>
+    <% @students.each do |student| %>
+      <div>
+        <%= check_box_tag "group_assignment[student_ids][]", student.id %>
+        <%= student.name %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-4">
+    <h2>生徒の能力を選択</h2>
+    <h3>能力を選んでグループ分けを行う:</h3>
+    <div>
+      <%= check_box_tag "group_assignment[ability_selection][]", "athletic_ability" %>
+      <%= label_tag "athletic_ability", "運動能力" %>
+    </div>
+    <div>
+      <%= check_box_tag "group_assignment[ability_selection][]", "leadership" %>
+      <%= label_tag "leadership", "リーダーシップ" %>
+    </div>
+    <div>
+      <%= check_box_tag "group_assignment[ability_selection][]", "cooperation" %>
+      <%= label_tag "cooperation", "協調性" %>
+    </div>
+    <div>
+      <%= check_box_tag "group_assignment[ability_selection][]", "humanities" %>
+      <%= label_tag "humanities", "文系能力" %>
+    </div>
+    <div>
+      <%= check_box_tag "group_assignment[ability_selection][]", "science" %>
+      <%= label_tag "science", "理系能力" %>
+    </div>
+    <!-- 必要に応じて他の能力も追加 -->
+  </div>
+
+  <%= form.submit "グループを作成", class: "bg-blue-500 text-white rounded p-2" %>
+<% end %>
