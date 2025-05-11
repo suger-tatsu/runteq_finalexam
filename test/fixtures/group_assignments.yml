@@ -1,7 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
+  title: MyString
+  teacher: one
 
 two:
-  name: MyStringg
+  title: MyString
+  teacher: two

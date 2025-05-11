@@ -1,0 +1,24 @@
+<h1><%= @group_assignment.title %>の詳細</h1>
+
+<table class="table-auto w-full border-collapse border border-gray-300">
+  <thead>
+    <tr>
+      <th class="border border-gray-300 px-4 py-2">グループ名</th>
+      <th class="border border-gray-300 px-4 py-2">メンバー</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @groups.each do |group| %>
+      <tr>
+        <td class="border border-gray-300 px-4 py-2"><%= group.name %></td>
+        <td class="border border-gray-300 px-4 py-2">
+          <ul>
+            <% group.students.each do |student| %>
+              <li><%= student.name %></li>
+            <% end %>
+          </ul>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
