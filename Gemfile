@@ -64,3 +64,4 @@ group :test do
   gem "selenium-webdriver"
 end
 gem 'foreman'
+gem "ransack", "~> 4.3"

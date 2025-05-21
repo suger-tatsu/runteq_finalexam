@@ -1,0 +1,42 @@
+<div class="max-w-xl mx-auto p-6 bg-white shadow-md rounded-md">
+  <%= form_with(model: student, local: true) do |form| %>
+    <% if student.errors.any? %>
+      <div class="bg-red-100 text-red-700 p-3 mb-4 rounded">
+        <p><%= pluralize(student.errors.count, "エラー") %>があります:</p>
+        <ul><% student.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %></ul>
+      </div>
+    <% end %>
+
+    <div class="mb-4">
+      <%= form.label :name, '氏名', class: 'block font-bold mb-1' %>
+      <%= form.text_field :name, class: 'border rounded w-full p-2' %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :gender, '性別', class: 'block font-bold mb-1' %>
+      <%= form.select :gender, [['男', '男'], ['女', '女']], { prompt: '選択してください' }, class: 'border rounded w-full p-2' %>
+    </div>
+
+    <% [:height, :weight].each do |attr| %>
+      <div class="mb-4">
+        <%= form.label attr, attr.to_s.humanize, class: 'block font-bold mb-1' %>
+        <%= form.number_field attr, step: 0.1, class: 'border rounded w-full p-2' %>
+      </div>
+    <% end %>
+
+    <% {
+      athletic_ability: '運動神経',
+      leadership: 'リーダーシップ',
+      cooperation: '協調性',
+      science: '理系',
+      humanities: '文系'
+    }.each do |attr, label| %>
+      <div class="mb-4">
+        <%= form.label attr, label, class: 'block font-bold mb-1' %>
+        <%= form.select attr, (0..10).to_a.map { |n| [n, n] }, { prompt: '選択してください' }, class: 'border rounded w-full p-2' %>
+      </div>
+    <% end %>
+
+    <%= form.submit student.new_record? ? '作成' : '更新', class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded' %>
+  <% end %>
+</div>

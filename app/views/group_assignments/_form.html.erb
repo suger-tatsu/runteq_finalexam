@@ -1,0 +1,80 @@
+<div class="max-w-xl mx-auto p-6 bg-white shadow-md rounded-md">
+  <%= form_with(model: group_assignment, local: true) do |form| %>
+    <% if group_assignment.errors.any? %>
+      <div class="bg-red-100 text-red-700 p-3 mb-4 rounded">
+        <p><%= pluralize(group_assignment.errors.count, "エラー") %>があります:</p>
+        <ul><% group_assignment.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %></ul>
+      </div>
+    <% end %>
+
+    <div class="mb-4">
+      <p class="font-bold mb-2">特技を基準にばらけさせる（1つだけ）</p>
+
+      <label class="block">
+        <%= radio_button_tag "group_assignment[skill_ids][]", "", group_assignment.skill_ids.blank?, class: 'mr-2' %>
+        なし（特技を考慮しない）
+      </label>
+
+      <% @skills.each do |skill| %>
+        <label class="block">
+          <%= radio_button_tag "group_assignment[skill_ids][]", skill.id, group_assignment.skill_ids&.include?(skill.id), class: 'mr-2' %>
+          <%= skill.name %>
+        </label>
+      <% end %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :title, 'グループ名', class: 'block font-bold mb-1' %>
+      <%= form.text_field :title, class: 'border rounded w-full p-2' %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :group_count, 'グループ数', class: 'block font-bold mb-1' %>
+      <%= form.number_field :group_count, min: 2, max: 10, class: 'border rounded w-full p-2' %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :strategy, '分け方の選択', class: 'block font-bold mb-1' %>
+      <%= form.select :strategy,
+            [['能力差で分ける', 'by_ability'], ['能力を均等に分散', 'even']],
+            { prompt: '選択してください' },
+            class: 'border rounded w-full p-2' %>
+    </div>
+
+    <div data-controller="select-all">
+      <label>
+        <input type="checkbox" data-select-all-target="source" data-action="select-all#toggleAll">
+        全員選択
+      </label>
+
+      <% students.each do |student| %>
+        <label class="block">
+          <%= check_box_tag "group_assignment[student_ids][]",
+                            student.id,
+                            group_assignment.student_ids&.include?(student.id),
+                            class: "mr-2",
+                            data: { select_all_target: "checkbox" } %>
+          <%= student.name %>
+        </label>
+      <% end %>
+    </div>
+
+    <div class="mb-4">
+      <p class="font-bold mb-2">能力を選択</p>
+      <% {
+        "athletic_ability" => "運動神経",
+        "leadership" => "リーダーシップ",
+        "cooperation" => "協調性",
+        "science" => "理系",
+        "humanities" => "文系"
+      }.each do |ability, label| %>
+        <label class="block">
+          <%= check_box_tag "group_assignment[ability_selection][]", ability, group_assignment.ability_selection.include?(ability), class: 'mr-2' %>
+          <%= label %>
+        </label>
+      <% end %>
+    </div>
+
+    <%= form.submit group_assignment.new_record? ? '作成' : '更新', class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded' %>
+  <% end %>
+</div>

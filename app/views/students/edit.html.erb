@@ -1,44 +1,5 @@
-<h1><%= @student.name %>の編集</h1>
+<h1 class="text-2xl font-bold mb-6 text-center">
+  <%= @student.new_record? ? '生徒作成' : '生徒編集' %>
+</h1>
 
-<%= form_for @student do |form| %>
-    <div class="mb-4">
-      <%= form.label :name, class: "block" %>
-      <%= form.text_field :name, class: "border rounded p-2 w-full" %>
-    </div>
-    <div class="mb-4">
-      <%= form.label :gender, class: "block" %>
-      <%= form.select :gender, [['男', '男'], ['女', '女']], { selected: @student.gender }, class: "border rounded p-2 w-full" %>
-    </div>
-    <div class="mb-4">
-      <%= form.label :height, class: "block" %>
-      <%= form.number_field :height, class: "border rounded p-2 w-full", step: "0.1", value: @student.height %>
-    </div>
-    <div class="mb-4">
-      <%= form.label :weight, class: "block" %>
-      <%= form.number_field :weight, class: "border rounded p-2 w-full", step: "0.1", value: @student.weight %>
-    </div>
-    <div class="mb-4">
-      <%= form.label :athletic_ability, class: "block" %>
-      <%= form.select :athletic_ability, (0..10).to_a.map { |n| [n, n] }, { selected: @student.athletic_ability, prompt: '選択してください' }, class: "border rounded p-2 w-full" %>
-    </div>
-    <div class="mb-4">
-      <%= form.label :leadership, class: "block" %>
-      <%= form.select :leadership, (0..10).to_a.map { |n| [n, n] }, { selected: @student.leadership, prompt: '選択してください' }, class: "border rounded p-2 w-full" %>
-    </div>
-    <div class="mb-4">
-      <%= form.label :cooperation, class: "block" %>
-      <%= form.select :cooperation, (0..10).to_a.map { |n| [n, n] }, { selected: @student.cooperation, prompt: '選択してください' }, class: "border rounded p-2 w-full" %>
-    </div>
-    <div class="mb-4">
-      <%= form.label :science, class: "block" %>
-      <%= form.select :science, (0..10).to_a.map { |n| [n, n] }, { selected: @student.science, prompt: '選択してください' }, class: "border rounded p-2 w-full" %>
-    </div>
-    <div class="mb-4">
-      <%= form.label :humanities, class: "block" %>
-      <%= form.select :humanities, (0..10).to_a.map { |n| [n, n] }, { selected: @student.humanities, prompt: '選択してください' }, class: "border rounded p-2 w-full" %>
-    </div>
-  
-    <div class="mb-4">
-      <%= form.submit '更新', class: "bg-blue-500 text-white rounded p-2" %>
-    </div>
-  <% end %>
+<%= render 'form', student: @student %>
