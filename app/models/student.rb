@@ -16,4 +16,20 @@ class Student < ApplicationRecord
   validates :cooperation, inclusion: { in: 0..10 }
   validates :science, inclusion: { in: 0..10 }
   validates :humanities, inclusion: { in: 0..10 }
+
+  def self.ransackable_attributes(auth_object = nil)
+    [
+      "name",
+      "gender",
+      "height",
+      "weight",
+      "athletic_ability",
+      "leadership",
+      "cooperation",
+      "science",
+      "humanities",
+      "created_at",
+      "updated_at"
+    ]
+  end
 end

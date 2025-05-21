@@ -5,6 +5,7 @@ class Teacher < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :password, presence: true, length: { minimum: 6 }
 
-  has_many :students
-  has_many :skills
+  has_many :students, dependent: :destroy
+  has_many :skills, dependent: :destroy
+  has_many :group_assignments, dependent: :destroy
 end

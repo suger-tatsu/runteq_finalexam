@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_11_100442) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_13_165034) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -30,6 +30,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_11_100442) do
     t.bigint "teacher_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "ability_selection"
+    t.integer "group_count"
     t.index ["teacher_id"], name: "index_group_assignments_on_teacher_id"
   end
 

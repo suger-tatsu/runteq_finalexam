@@ -1,0 +1,27 @@
+<div class="max-w-xl mx-auto p-6 bg-white shadow-md rounded-md">
+  <%= form_with(model: skill, local: true) do |form| %>
+    <% if skill.errors.any? %>
+      <div class="bg-red-100 text-red-700 p-3 mb-4 rounded">
+        <p><%= pluralize(skill.errors.count, "エラー") %>があります:</p>
+        <ul><% skill.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %></ul>
+      </div>
+    <% end %>
+
+    <div class="mb-4">
+      <%= form.label :name, '特技名', class: 'block font-bold mb-1' %>
+      <%= form.text_field :name, class: 'border rounded w-full p-2' %>
+    </div>
+
+    <div class="mb-4">
+      <p class="font-bold mb-2">対象生徒を選択</p>
+      <% students.each do |student| %>
+        <label class="block">
+          <%= check_box_tag "skill[student_ids][]", student.id, skill.student_ids.include?(student.id), class: 'mr-2' %>
+          <%= student.name %>
+        </label>
+      <% end %>
+    </div>
+
+    <%= form.submit skill.new_record? ? '追加' : '更新', class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded' %>
+  <% end %>
+</div>

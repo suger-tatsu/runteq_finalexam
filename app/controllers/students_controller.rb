@@ -2,7 +2,16 @@ class StudentsController < ApplicationController
   before_action :set_current_teacher
 
   def index
-    @students =  @current_teacher.students
+    if params[:q].present?
+      @students = current_teacher.students.where("name ILIKE ?", "%#{params[:q]}%")
+    else
+      @students = current_teacher.students
+    end
+  end
+
+  def autocomplete
+    names = current_teacher.students.where("name ILIKE ?", "%#{params[:q]}%").limit(10).pluck(:name)
+    render json: names
   end
 
   def new

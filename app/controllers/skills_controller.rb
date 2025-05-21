@@ -2,9 +2,17 @@ class SkillsController < ApplicationController
     before_action :set_current_teacher
 
   def index
-    #@skills = Skill.all
-    @skills =  @current_teacher.skills
     @teacher = Teacher.find(params[:teacher_id]) if params[:teacher_id].present?
+    if params[:q].present?
+      @skills = current_teacher.skills.where("name ILIKE ?", "%#{params[:q]}%")
+    else
+      @skills = current_teacher.skills
+    end
+  end
+
+  def autocomplete
+    names = current_teacher.skills.where("name ILIKE ?", "%#{params[:q]}%").limit(10).pluck(:name)
+    render json: names
   end
 
   def new
