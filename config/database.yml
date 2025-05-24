@@ -83,18 +83,20 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: myapp_production
-    username: myapp
-    password: <%= ENV["MYAPP_DATABASE_PASSWORD"] %>
+    host: <%= ENV["DB_HOST"] %>
+    database: <%= ENV["DB_NAME"] %>
+    username: <%= ENV["DB_USER"] %>
+    password: <%= ENV["DB_PASSWORD"] %>
+    port: <%= ENV["DB_PORT"] || 5432 %>
   cache:
     <<: *primary_production
-    database: myapp_production_cache
+    database: <%= ENV["DB_NAME"] %>_cache
     migrations_paths: db/cache_migrate
   queue:
     <<: *primary_production
-    database: myapp_production_queue
+    database: <%= ENV["DB_NAME"] %>_queue
     migrations_paths: db/queue_migrate
   cable:
     <<: *primary_production
-    database: myapp_production_cable
+    database: <%= ENV["DB_NAME"] %>_cable
     migrations_paths: db/cable_migrate
