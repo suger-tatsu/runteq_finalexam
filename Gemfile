@@ -65,3 +65,4 @@ group :test do
 end
 gem 'foreman'
 gem "ransack", "~> 4.3"
+gem "image_processing", "~> 1.2"

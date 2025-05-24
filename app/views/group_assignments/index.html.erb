@@ -22,7 +22,7 @@
     <table class="min-w-full bg-white border border-gray-300">
       <thead>
         <tr>
-          <th class="px-4 py-2 border">グループ名（グループ名をクリックして編集）</th>
+          <th class="px-4 py-2 border">グループ名</th>
           <th class="px-4 py-2 border">アクション</th>
         </tr>
       </thead>
@@ -33,7 +33,11 @@
               <%= link_to group.title, group_assignment_path(group), class: 'text-blue-500' %>
             </td>
             <td class="border px-4 py-2">
-              <%= button_to '削除', group_assignment_path(group), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'text-red-500' %> <!-- 削除ボタン -->
+              <%= button_to '削除',
+                    group_assignment_path(group),
+                    method: :delete,
+                    class: 'text-red-500',
+                    data: { controller: 'confirm', action: 'confirm#confirm' } %>
             </td>
           </tr>
         <% end %>

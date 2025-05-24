@@ -1,8 +1,28 @@
-<div class="flex justify-between items-center bg-gray-200 p-4">
-  <div class="teacher-icon">
-    <img src="teacher_icon.png" alt="教師アイコン" class="w-10 h-10 mr-2" />
-  </div>
-  <div class="logout-button">
-    <%= button_to 'ログアウト', logout_path, method: :delete, class: 'bg-blue-500 text-white px-4 py-2 rounded' %>
+<div class="flex items-center justify-between bg-blue-600 text-white px-4 py-3" data-controller="dropdown">
+  <!-- ロゴやタイトル -->
+  <div class="text-lg font-bold">生徒グループ分けアプリ</div>
+
+  <!-- 教師アイコンとドロップダウン -->
+  <div class="relative flex items-center">
+    <!-- 教師アイコン（青丸） -->
+    <button data-action="click->dropdown#toggle" class="focus:outline-none flex items-center">
+      <% if @current_teacher&.icon&.attached? %>
+        <%= image_tag @current_teacher.icon.variant(resize_to_limit: [40, 40]), class: "w-10 h-10 rounded-full" %>
+      <% else %>
+        <div class="w-10 h-10 rounded-full bg-blue-300 text-blue-900 flex items-center justify-center font-bold">
+          T
+        </div>
+      <% end %>
+    </button>
+
+    <!-- ドロップダウン：アイコンの**左・下方向**に展開 -->
+    <div data-dropdown-target="menu"
+         class="absolute right-0 top-full mt-2 w-48 bg-white text-black border rounded shadow hidden z-50">
+      <ul>
+        <li><%= link_to "パスワード変更", edit_teacher_password_path, class: "block px-4 py-2 hover:bg-gray-100" %></li>
+        <!--<li><%= link_to "アイコン変更", edit_teacher_icon_path, class: "block px-4 py-2 hover:bg-gray-100" %></li>-->
+        <li><%= button_to "ログアウト", logout_path, method: :delete, class: "block w-full text-left px-4 py-2 hover:bg-gray-100" %></li>
+      </ul>
+    </div>
   </div>
 </div>
