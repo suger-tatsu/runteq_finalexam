@@ -20,6 +20,10 @@
   <div class="flex justify-between">
     <%= link_to '生徒一覧に戻る', students_path, class: 'text-blue-500 hover:underline' %>
     <%= link_to '編集', edit_student_path(@student), class: 'text-blue-500 hover:underline' %>
-    <%= button_to '削除', student_path(@student), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'text-red-500 hover:underline' %>
+    <%= button_to '削除',
+      student_path(@student),
+      method: :delete,
+      class: 'text-red-500 hover:underline',
+      data: { controller: 'confirm', action: 'confirm#confirm' } %>
   </div>
 </div>

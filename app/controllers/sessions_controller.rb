@@ -15,6 +15,6 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:teacher_id] = nil # セッションのクリア
-    redirect_to sessions_new_path, notice: 'ログアウトしました'
+    redirect_to login_path, notice: 'ログアウトしました'
   end
 end

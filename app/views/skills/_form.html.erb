@@ -3,7 +3,11 @@
     <% if skill.errors.any? %>
       <div class="bg-red-100 text-red-700 p-3 mb-4 rounded">
         <p><%= pluralize(skill.errors.count, "エラー") %>があります:</p>
-        <ul><% skill.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %></ul>
+        <ul>
+          <% skill.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
       </div>
     <% end %>
 
@@ -12,10 +16,15 @@
       <%= form.text_field :name, class: 'border rounded w-full p-2' %>
     </div>
 
-    <div class="mb-4">
+    <div class="mb-4" data-controller="filter">
+      <%= label_tag :student_search, "生徒検索", class: "block font-bold mb-1" %>
+      <%= text_field_tag :student_search, nil,
+            class: "border rounded w-full p-2 mb-2",
+            data: { filter_target: "input", action: "input->filter#search" } %>
+
       <p class="font-bold mb-2">対象生徒を選択</p>
       <% students.each do |student| %>
-        <label class="block">
+        <label class="block" data-filter-target="item">
           <%= check_box_tag "skill[student_ids][]", student.id, skill.student_ids.include?(student.id), class: 'mr-2' %>
           <%= student.name %>
         </label>

@@ -33,7 +33,11 @@
               <%= link_to skill.name, edit_skill_path(skill, teacher_id: @teacher&.id), class: 'text-blue-500' %>
             </td>
             <td class="border px-4 py-2">
-              <%= button_to '削除', skill_path(skill), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'text-red-500' %> <!-- 削除ボタン -->
+             <%= button_to '削除',
+                   skill_path(skill),
+                   method: :delete,
+                   class: 'text-red-500',
+                   data: { controller: 'confirm', action: 'confirm#confirm' } %>
             </td>
           </tr>
         <% end %>

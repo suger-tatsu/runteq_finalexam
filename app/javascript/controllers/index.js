@@ -7,6 +7,15 @@ import { application } from "./application"
 import AutocompleteController from "./autocomplete_controller"
 application.register("autocomplete", AutocompleteController)
 
+import ConfirmController from "./confirm_controller"
+application.register("confirm", ConfirmController)
+
+import DropdownController from "./dropdown_controller"
+application.register("dropdown", DropdownController)
+
+import FilterController from "./filter_controller"
+application.register("filter", FilterController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 

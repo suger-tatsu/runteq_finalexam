@@ -6,6 +6,11 @@ Rails.application.routes.draw do
   post   'login',    to: 'sessions#create'
   delete 'logout',   to: 'sessions#destroy', as: :logout
 
+  get 'teachers/edit_password', to: 'teachers#edit_password', as: :edit_teacher_password
+  patch 'teachers/update_password', to: 'teachers#update_password', as: :update_teacher_password
+
+  get 'teachers/edit_icon', to: 'teachers#edit_icon', as: :edit_teacher_icon
+  patch 'teachers/update_icon', to: 'teachers#update_icon', as: :update_teacher_icon
   # 教師登録
   get  'register', to: 'teachers#new',    as: :register
   post 'teachers', to: 'teachers#create'

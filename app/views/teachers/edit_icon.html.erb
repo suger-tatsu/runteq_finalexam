@@ -1,0 +1,26 @@
+<div class="max-w-md mx-auto p-6 bg-white shadow rounded">
+  <h2 class="text-lg font-bold mb-4">アイコン変更</h2>
+
+  <% if @current_teacher&.persisted? && @current_teacher.icon.attached? %>
+    <p class="mb-2">現在のアイコン：</p>
+    <%= image_tag @current_teacher.icon.variant(resize_to_limit: [100, 100]), class: "mb-4 rounded-full" %>
+  <% end %>
+
+  <%= form_with model: @current_teacher,
+                url: update_teacher_icon_path,
+                method: :patch,
+                local: true,
+                html: { multipart: true } do |f| %>
+
+    <div class="mb-4">
+      <%= f.label :icon, "新しいアイコン画像", class: "block font-bold mb-1" %>
+      <%= f.file_field :icon, class: "border rounded w-full p-2" %>
+    </div>
+
+    <div class="flex space-x-4">
+      <%= f.submit "変更", class: "bg-blue-500 text-white px-4 py-2 rounded" %>
+      <%= link_to "生徒一覧に戻る", students_path, class: "bg-gray-300 text-black px-4 py-2 rounded" %>
+    </div>
+
+  <% end %>
+</div>
