@@ -1,0 +1,31 @@
+<div class="max-w-6xl mx-auto p-6 bg-white shadow-md rounded-md">
+  <h2 class="text-xl font-bold mb-6"><%= @group_assignment.title %> - グループ構成編集</h2>
+
+  <%= form_with url: update_groups_group_assignment_path(@group_assignment), method: :patch, local: true do %>
+    <div data-controller="group-editor" class="grid grid-cols-<%= @groups.size %> gap-6">
+      <% @groups.each do |group| %>
+        <div class="border rounded p-4 bg-gray-50">
+          <h3 class="font-bold mb-2"><%= group.name %></h3>
+
+          <%= hidden_field_tag "groups[#{group.id}][]", nil %>
+
+          <% Student.where(id: @groups.map(&:student_ids).flatten.uniq).each do |student| %>
+            <label class="block">
+              <%= check_box_tag "groups[#{group.id}][]",
+                                student.id,
+                                group.students.include?(student),
+                                data: { group_editor_target: "checkbox", action: "group-editor#toggle" },
+                                class: "mr-2" %>
+              <%= student.name %>
+            </label>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="mt-6 text-center">
+      <%= submit_tag "保存", class: "bg-blue-500 text-white font-bold px-6 py-2 rounded" %>
+      <%= link_to 'グループ一覧に戻る', group_assignments_path, class: "bg-blue-500 text-white font-bold px-6 py-2 rounded" %>
+    </div>
+  <% end %>
+</div>

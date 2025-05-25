@@ -45,6 +45,35 @@ class GroupAssignmentsController < ApplicationController
     redirect_to group_assignments_path, notice: '削除されました！'
   end
 
+  def edit_groups
+    @group_assignment = GroupAssignment.find(params[:id])
+    @groups = @group_assignment.groups.includes(:students)
+  end
+
+  def update_groups
+    @group_assignment = GroupAssignment.find(params[:id])
+
+    ActiveRecord::Base.transaction do
+      # 既存の割り当てを削除（安全策）
+      GroupAssignmentStudent.where(group_assignment_id: @group_assignment.id).delete_all
+
+      params[:groups]&.each do |group_id, student_ids|
+        group = @group_assignment.groups.find(group_id)
+        clean_ids = student_ids.reject(&:blank?).map(&:to_i)
+
+        clean_ids.each do |student_id|
+          GroupAssignmentStudent.create!(
+            group_assignment: @group_assignment,
+            group: group,
+            student_id: student_id
+          )
+        end
+      end
+    end
+
+    redirect_to group_assignment_path(@group_assignment), notice: "グループ構成を更新しました"
+  end
+
   private
 
   def set_current_teacher
@@ -56,6 +85,12 @@ class GroupAssignmentsController < ApplicationController
   end
 
   def group_assignment_params
-    params.require(:group_assignment).permit(:title, :group_count, :strategy, student_ids: [], ability_selection: [], skill_ids: [])
+    params.require(:group_assignment).permit(
+      :title, :group_count, :strategy,
+      student_ids: [],
+      ability_selection: [],
+      skill_ids: [],
+      ability_weights: {} # ← 追加
+    )
   end
 end

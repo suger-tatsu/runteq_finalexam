@@ -32,6 +32,11 @@ Rails.application.routes.draw do
     collection do
       get :autocomplete
     end
+
+    member do
+      get :edit_groups         # 編集画面表示
+      patch :update_groups     # 編集内容保存
+    end
   end
 
   # 健康チェック（Herokuや監視向け）
