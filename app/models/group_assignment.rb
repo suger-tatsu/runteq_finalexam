@@ -6,18 +6,20 @@ class GroupAssignment < ApplicationRecord
 
   validates :title, presence: true
 
-  attr_accessor :strategy, :selected_student_ids, :skill_ids
+  attr_accessor :strategy, :selected_student_ids, :skill_ids, :ability_weights
 
   after_initialize :set_defaults, if: :new_record?
 
   def set_defaults
     self.ability_selection ||= []
+    self.ability_weights ||= {}
   end
 
   def self.new_from_params(params, teacher)
     student_ids = params[:student_ids] || []
     selected_abilities = params[:ability_selection] || []
     selected_skill_ids = params[:skill_ids]&.reject(&:blank?)&.map(&:to_i) || []
+    weights = (params[:ability_weights] || {}).transform_values(&:to_i)
 
     new(
       title: params[:title],
@@ -28,6 +30,7 @@ class GroupAssignment < ApplicationRecord
       assignment.strategy = params[:strategy]
       assignment.selected_student_ids = student_ids.map(&:to_i)
       assignment.skill_ids = selected_skill_ids
+      assignment.ability_weights = weights
     end
   end
 
@@ -57,12 +60,15 @@ class GroupAssignment < ApplicationRecord
     return if students.empty? || group_count.to_i < 1
 
     student_data = students.map do |student|
-      score = ability_selection.sum { |ability| student.send(ability) }
+      score = ability_selection.sum do |ability|
+        weight = ability_weights[ability].to_i
+        student.send(ability).to_i * weight
+      end
+
       matched_skills = skill_ids.present? ? student.skills.pluck(:id) & skill_ids : []
       [student, score, matched_skills]
     end
 
-    # 特技の数（優先） → 能力スコア でソート
     student_data.sort_by! do |_, score, skills|
       [-(skills.size), order == :desc ? -score : score]
     end

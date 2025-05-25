@@ -78,25 +78,34 @@
       <% end %>
     </div>
 
-    <!-- 能力 -->
+    <!-- 能力と重み入力 -->
     <div class="mb-4">
-      <p class="font-bold mb-2">能力を選択</p>
-      <% {
-        "athletic_ability" => "運動神経",
-        "leadership" => "リーダーシップ",
-        "cooperation" => "協調性",
-        "science" => "理系",
-        "humanities" => "文系"
-      }.each do |ability, label| %>
-        <label class="block">
+  <p class="font-bold mb-2">能力を選択（重みを設定）</p>
+    <% {
+      "athletic_ability" => "運動神経",
+      "leadership" => "リーダーシップ",
+      "cooperation" => "協調性",
+      "science" => "理系",
+      "humanities" => "文系"
+    }.each do |ability, label| %>
+      <div class="flex items-center gap-2 mb-2">
+        <label class="flex items-center gap-2">
           <%= check_box_tag "group_assignment[ability_selection][]", ability, group_assignment.ability_selection.include?(ability), class: 'mr-2' %>
           <%= label %>
         </label>
-      <% end %>
-    </div>
+        <%= number_field_tag "group_assignment[ability_weights][#{ability}]",
+              group_assignment.ability_weights&.dig(ability) || 5,
+              in: 0..10,
+              step: 1,
+              class: "border rounded p-1 w-20",
+              placeholder: "重み" %>
+      </div>
+    <% end %>
+  </div>
 
     <!-- 送信 -->
     <%= form.submit group_assignment.new_record? ? '作成' : '更新',
           class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded' %>
+    <%= link_to 'グループ一覧に戻る', group_assignments_path, class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded' %>
   <% end %>
 </div>

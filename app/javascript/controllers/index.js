@@ -16,6 +16,9 @@ application.register("dropdown", DropdownController)
 import FilterController from "./filter_controller"
 application.register("filter", FilterController)
 
+import GroupEditorController from "./group_editor_controller"
+application.register("group-editor", GroupEditorController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
