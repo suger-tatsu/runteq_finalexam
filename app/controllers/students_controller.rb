@@ -2,21 +2,51 @@ class StudentsController < ApplicationController
   before_action :set_current_teacher
 
   def index
-    @students = current_teacher.students
+  @students = current_teacher.students
 
-    # 検索キーワード
-    if params[:q].present?
-      @students = @students.where("name ILIKE ?", "%#{params[:q]}%")
-    end
+  # 検索
+  if params[:q].present?
+    @students = @students.where("name ILIKE ?", "%#{params[:q]}%")
+  end
 
-    # ソート処理
-    case params[:sort]
-    when 'name'
-      @students = @students.order(:name)
-    when 'created_at_desc'
-      @students = @students.order(created_at: :desc)
+  # 並び替え
+  case params[:sort]
+    when 'name_asc'
+      @students = @students.order(name: :asc)
+    when 'name_desc'
+      @students = @students.order(name: :desc)
     when 'created_at_asc'
       @students = @students.order(created_at: :asc)
+    when 'created_at_desc'
+      @students = @students.order(created_at: :desc)
+    when 'height_asc'
+      @students = @students.order(height: :asc)
+    when 'height_desc'
+      @students = @students.order(height: :desc)
+    when 'weight_asc'
+      @students = @students.order(weight: :asc)
+    when 'weight_desc'
+      @students = @students.order(weight: :desc)
+    when 'athletic_ability_asc'
+      @students = @students.order(athletic_ability: :asc)
+    when 'athletic_ability_desc'
+      @students = @students.order(athletic_ability: :desc)
+    when 'leadership_asc'
+      @students = @students.order(leadership: :asc)
+    when 'leadership_desc'
+      @students = @students.order(leadership: :desc)
+    when 'cooperation_asc'
+      @students = @students.order(cooperation: :asc)
+    when 'cooperation_desc'
+      @students = @students.order(cooperation: :desc)
+    when 'science_asc'
+      @students = @students.order(science: :asc)
+    when 'science_desc'
+      @students = @students.order(science: :desc)
+    when 'humanities_asc'
+      @students = @students.order(humanities: :asc)
+    when 'humanities_desc'
+      @students = @students.order(humanities: :desc)
     end
 
     # ページネーション

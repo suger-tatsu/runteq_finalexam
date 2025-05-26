@@ -8,30 +8,47 @@
 
     <%= link_to '生徒を作成する', new_student_path, class: 'inline-block bg-green-500 hover:bg-green-600 text-white rounded px-4 py-2 mb-6 shadow' %>
 
-    <!-- 検索フォーム -->
-    <%= form_with url: students_path, method: :get, local: true, data: { controller: "autocomplete", autocomplete_url_value: autocomplete_students_path } do %>
-      <div class="flex flex-col md:flex-row gap-4 mb-6">
-        <div class="flex-1">
-          <%= label_tag :q, "名前検索", class: "block text-gray-700 font-semibold mb-1" %>
-          <%= text_field_tag :q, params[:q], class: "border border-gray-300 rounded w-full p-2", data: { autocomplete_target: "input", action: "input->autocomplete#search" } %>
-          <div data-autocomplete-target="list" class="bg-white shadow rounded mt-1 absolute z-10 w-full"></div>
-        </div>
+    <!-- 検索 + 並び替えフォーム -->
+    <%= form_with url: students_path, method: :get, local: true, class: "mb-6 flex flex-col md:flex-row gap-4 items-end" do %>
+      <!-- 名前検索 -->
+      <div class="flex-1">
+        <%= label_tag :q, "名前検索", class: "block text-sm font-semibold mb-1" %>
+        <%= text_field_tag :q, params[:q], class: "border border-gray-300 rounded w-full p-2" %>
+      </div>
 
-        <div class="md:mt-6">
-          <%= submit_tag "検索", class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded shadow" %>
-        </div>
+      <!-- 並び替え -->
+      <div>
+        <%= label_tag :sort, "並び替え", class: "block text-sm font-semibold mb-1" %>
+        <%= select_tag :sort, options_for_select([
+            ['名前（昇順）', 'name_asc'],
+            ['名前（降順）', 'name_desc'],
+            ['作成日（新しい順）', 'created_at_desc'],
+            ['作成日（古い順）', 'created_at_asc'],
+            ['身長（高い順）', 'height_desc'],
+            ['身長（低い順）', 'height_asc'],
+            ['体重（重い順）', 'weight_desc'],
+            ['体重（軽い順）', 'weight_asc'],
+            ['運動能力（高）', 'athletic_ability_desc'],
+            ['運動能力（低）', 'athletic_ability_asc'],
+            ['リーダーシップ（高）', 'leadership_desc'],
+            ['リーダーシップ（低）', 'leadership_asc'],
+            ['協調性（高）', 'cooperation_desc'],
+            ['協調性（低）', 'cooperation_asc'],
+            ['理系（高）', 'science_desc'],
+            ['理系（低）', 'science_asc'],
+            ['文系（高）', 'humanities_desc'],
+            ['文系（低）', 'humanities_asc']
+          ], params[:sort]), class: "border border-gray-300 rounded w-full p-2"
+        %>
+      </div>
+
+      <!-- 検索ボタン -->
+      <div>
+        <%= submit_tag "検索", class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded shadow mt-6 md:mt-0" %>
       </div>
     <% end %>
 
-    <!-- 並び替え -->
-    <div class="mb-4 text-sm text-gray-600">
-      <span class="font-bold mr-2">並び替え:</span>
-      <%= link_to '名前順', students_path(q: params[:q], sort: 'name'), class: "text-blue-500 hover:underline mr-2" %>
-      <%= link_to '新しい順', students_path(q: params[:q], sort: 'created_at_desc'), class: "text-blue-500 hover:underline mr-2" %>
-      <%= link_to '古い順', students_path(q: params[:q], sort: 'created_at_asc'), class: "text-blue-500 hover:underline" %>
-    </div>
-
-    <!-- テーブル -->
+    <!-- 生徒テーブル -->
     <div class="overflow-x-auto rounded shadow">
       <table class="min-w-full table-auto bg-white border border-gray-200">
         <thead class="bg-gray-100 text-gray-700 text-sm">
