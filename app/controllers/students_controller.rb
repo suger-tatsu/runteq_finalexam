@@ -11,43 +11,43 @@ class StudentsController < ApplicationController
 
   # 並び替え
   case params[:sort]
-    when 'name_asc'
+  when "name_asc"
       @students = @students.order(name: :asc)
-    when 'name_desc'
+  when "name_desc"
       @students = @students.order(name: :desc)
-    when 'created_at_asc'
+  when "created_at_asc"
       @students = @students.order(created_at: :asc)
-    when 'created_at_desc'
+  when "created_at_desc"
       @students = @students.order(created_at: :desc)
-    when 'height_asc'
+  when "height_asc"
       @students = @students.order(height: :asc)
-    when 'height_desc'
+  when "height_desc"
       @students = @students.order(height: :desc)
-    when 'weight_asc'
+  when "weight_asc"
       @students = @students.order(weight: :asc)
-    when 'weight_desc'
+  when "weight_desc"
       @students = @students.order(weight: :desc)
-    when 'athletic_ability_asc'
+  when "athletic_ability_asc"
       @students = @students.order(athletic_ability: :asc)
-    when 'athletic_ability_desc'
+  when "athletic_ability_desc"
       @students = @students.order(athletic_ability: :desc)
-    when 'leadership_asc'
+  when "leadership_asc"
       @students = @students.order(leadership: :asc)
-    when 'leadership_desc'
+  when "leadership_desc"
       @students = @students.order(leadership: :desc)
-    when 'cooperation_asc'
+  when "cooperation_asc"
       @students = @students.order(cooperation: :asc)
-    when 'cooperation_desc'
+  when "cooperation_desc"
       @students = @students.order(cooperation: :desc)
-    when 'science_asc'
+  when "science_asc"
       @students = @students.order(science: :asc)
-    when 'science_desc'
+  when "science_desc"
       @students = @students.order(science: :desc)
-    when 'humanities_asc'
+  when "humanities_asc"
       @students = @students.order(humanities: :asc)
-    when 'humanities_desc'
+  when "humanities_desc"
       @students = @students.order(humanities: :desc)
-    end
+  end
 
     # ページネーション
     @students = @students.page(params[:page]).per(10)
@@ -61,13 +61,13 @@ class StudentsController < ApplicationController
   def new
     @student = Student.new
   end
-  
+
   def create
     @student = Student.new(student_params)
     @student.teacher_id = @current_teacher.id
-  
+
     if @student.save
-      redirect_to students_path, notice: '生徒が作成されました'
+      redirect_to students_path, notice: "生徒が作成されました"
     else
       puts @student.errors.full_messages
       render :new
@@ -89,7 +89,7 @@ class StudentsController < ApplicationController
   def update
     @student = Student.find(params[:id])
     if @student.update(student_params)
-      redirect_to students_path, notice: '生徒情報が更新されました。'
+      redirect_to students_path, notice: "生徒情報が更新されました。"
     else
       render :edit
     end
@@ -98,7 +98,7 @@ class StudentsController < ApplicationController
   def destroy
     @student = Student.find(params[:id])
     @student.destroy
-    redirect_to students_path, notice: '生徒が削除されました。'
+    redirect_to students_path, notice: "生徒が削除されました。"
   end
 
   private
@@ -106,11 +106,11 @@ class StudentsController < ApplicationController
   def set_current_teacher
     @current_teacher = Teacher.find(session[:teacher_id]) if session[:teacher_id]
     unless @current_teacher
-      flash[:alert] = '教師が見つかりません。ログインしてください。'
+      flash[:alert] = "教師が見つかりません。ログインしてください。"
       redirect_to login_path and return
     end
   end
-  
+
   def student_params
     params.require(:student).permit(:name, :gender, :height, :weight, :athletic_ability, :leadership, :cooperation, :science, :humanities).tap do |whitelisted|
       whitelisted[:height] = whitelisted[:height].to_f

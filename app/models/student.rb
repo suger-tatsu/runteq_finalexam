@@ -8,7 +8,7 @@ class Student < ApplicationRecord
   has_many :groups, through: :group_students
 
   validates :name, presence: true, uniqueness: { scope: :teacher_id, message: "はすでに登録されています" }
-  validates :gender, inclusion: { in: %w(男 女) }
+  validates :gender, inclusion: { in: %w[男 女] }
   validates :height, numericality: { allow_nil: true }
   validates :weight, numericality: { allow_nil: true }
   validates :athletic_ability, inclusion: { in: 0..10 }
