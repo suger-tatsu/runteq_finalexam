@@ -3,9 +3,9 @@
 one:
   name: MyString1
   email: MyString2
-  password: MyString3
+  password_digest: <%= BCrypt::Password.create('password123') %>
 
 two:
   name: MyString4
   email: MyString5
-  password: MyString6
+  password_digest: <%= BCrypt::Password.create('password143') %>
