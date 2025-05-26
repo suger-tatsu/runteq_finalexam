@@ -2,23 +2,33 @@
 <div class="flex">
   <%= render 'shared/sidebar' %>
   <main class="flex-1 p-4">
-    <h1 class="text-2xl mb-4">グループ分け一覧</h1>
-    <%= link_to 'グループを追加する', new_group_assignment_path, class: 'inline-block bg-green-500 text-white rounded px-4 py-2 mb-6 shadow' %>
-    
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">グループ分け一覧</h1>
+
+    <%= link_to 'グループを追加する', new_group_assignment_path, class: 'inline-block bg-green-500 hover:bg-green-600 text-white rounded px-4 py-2 mb-6 shadow' %>
+
+    <!-- 検索フォーム -->
     <%= form_with url: group_assignments_path, method: :get, local: true, data: { controller: "autocomplete", autocomplete_url_value: autocomplete_group_assignments_path } do %>
       <div class="flex gap-2 items-start">
         <div class="flex-1">
-          <%= label_tag :q, "グループ名検索" %>
-          <%= text_field_tag :q, params[:q], data: { autocomplete_target: "input", action: "input->autocomplete#search" }, class: "border p-2 rounded w-full" %>
-          <div data-autocomplete-target="list" class="bg-white border rounded mt-1"></div>
+          <%= label_tag :q, "グループ名検索", class: "block text-gray-700 font-semibold mb-1" %>
+          <%= text_field_tag :q, params[:q], data: { autocomplete_target: "input", action: "input->autocomplete#search" }, class: "border border-gray-300 rounded w-full p-2" %>
+          <div data-autocomplete-target="list" class="bg-white shadow rounded mt-1 absolute z-10 w-full"></div>
         </div>
-
         <div class="mt-6">
           <%= submit_tag "検索", class: "bg-blue-500 text-white px-4 py-2 rounded" %>
         </div>
       </div>
     <% end %>
 
+    <!-- 並び替え -->
+    <div class="my-4">
+      <span class="font-bold mr-2">並び替え:</span>
+      <%= link_to '名前順', group_assignments_path(q: params[:q], sort: 'title'), class: "text-blue-500 hover:underline mr-2" %>
+      <%= link_to '新しい順', group_assignments_path(q: params[:q], sort: 'created_at_desc'), class: "text-blue-500 hover:underline mr-2" %>
+      <%= link_to '古い順', group_assignments_path(q: params[:q], sort: 'created_at_asc'), class: "text-blue-500 hover:underline" %>
+    </div>
+
+    <!-- 一覧テーブル -->
     <table class="min-w-full bg-white border border-gray-300">
       <thead>
         <tr>
@@ -32,19 +42,24 @@
             <td class="border px-4 py-2">
               <%= link_to group.title, group_assignment_path(group), class: 'text-blue-500' %>
             </td>
-           <td class="border px-4 py-2">
+            <td class="border px-4 py-2">
               <div class="flex space-x-4">
                 <%= link_to '編集', edit_groups_group_assignment_path(group), class: 'text-blue-500' %>
                 <%= button_to '削除',
-                    group_assignment_path(group),
-                    method: :delete,
-                    class: 'text-red-500',
-                    data: { controller: 'confirm', action: 'confirm#confirm' } %>
+                      group_assignment_path(group),
+                      method: :delete,
+                      class: 'text-red-500',
+                      data: { controller: 'confirm', action: 'confirm#confirm' } %>
               </div>
-           </td>
+            </td>
           </tr>
         <% end %>
       </tbody>
     </table>
+
+    <!-- ページネーション -->
+    <div class="mt-4">
+      <%= paginate @group_assignments %>
+    </div>
   </main>
 </div>

@@ -2,11 +2,19 @@ class GroupAssignmentsController < ApplicationController
   before_action :set_current_teacher
 
   def index
-    if params[:q].present?
-      @group_assignments = current_teacher.group_assignments.where("title ILIKE ?", "%#{params[:q]}%")
-    else
-      @group_assignments = current_teacher.group_assignments
+    @group_assignments = current_teacher.group_assignments
+    @group_assignments = @group_assignments.where("title ILIKE ?", "%#{params[:q]}%") if params[:q].present?
+
+    case params[:sort]
+    when "title"
+      @group_assignments = @group_assignments.order(:title)
+    when "created_at_desc"
+      @group_assignments = @group_assignments.order(created_at: :desc)
+    when "created_at_asc"
+      @group_assignments = @group_assignments.order(created_at: :asc)
     end
+
+    @group_assignments = @group_assignments.page(params[:page])
   end
 
   def autocomplete
