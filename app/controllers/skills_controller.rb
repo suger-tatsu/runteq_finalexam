@@ -2,12 +2,21 @@ class SkillsController < ApplicationController
     before_action :set_current_teacher
 
   def index
-    @teacher = Teacher.find(params[:teacher_id]) if params[:teacher_id].present?
-    if params[:q].present?
-      @skills = current_teacher.skills.where("name ILIKE ?", "%#{params[:q]}%")
-    else
-      @skills = current_teacher.skills
+    @teacher = current_teacher
+
+    @skills = @teacher.skills
+    @skills = @skills.where("name ILIKE ?", "%#{params[:q]}%") if params[:q].present?
+
+    case params[:sort]
+    when "name"
+      @skills = @skills.order(:name)
+    when "created_at_desc"
+      @skills = @skills.order(created_at: :desc)
+    when "created_at_asc"
+      @skills = @skills.order(created_at: :asc)
     end
+
+    @skills = @skills.page(params[:page])
   end
 
   def autocomplete

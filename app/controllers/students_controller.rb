@@ -2,11 +2,25 @@ class StudentsController < ApplicationController
   before_action :set_current_teacher
 
   def index
+    @students = current_teacher.students
+
+    # 検索キーワード
     if params[:q].present?
-      @students = current_teacher.students.where("name ILIKE ?", "%#{params[:q]}%")
-    else
-      @students = current_teacher.students
+      @students = @students.where("name ILIKE ?", "%#{params[:q]}%")
     end
+
+    # ソート処理
+    case params[:sort]
+    when 'name'
+      @students = @students.order(:name)
+    when 'created_at_desc'
+      @students = @students.order(created_at: :desc)
+    when 'created_at_asc'
+      @students = @students.order(created_at: :asc)
+    end
+
+    # ページネーション
+    @students = @students.page(params[:page]).per(10)
   end
 
   def autocomplete
@@ -28,6 +42,10 @@ class StudentsController < ApplicationController
       puts @student.errors.full_messages
       render :new
     end
+  rescue ActiveRecord::RecordNotUnique
+    @student.errors.add(:name, "はすでに登録されています")
+    flash.now[:alert] = @student.errors.full_messages.join(", ")
+    render :new
   end
 
   def show

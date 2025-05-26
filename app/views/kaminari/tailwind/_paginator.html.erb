@@ -1,0 +1,29 @@
+<nav role="navigation" aria-label="Pagination Navigation" class="flex items-center justify-center mt-6 space-x-2">
+  <% query = request.query_parameters.except(:page) %>
+
+  <%# 前のページリンク %>
+  <% if @students.prev_page %>
+    <%= link_to raw("&laquo; 前"), url_for(query.merge(page: @students.prev_page)),
+          class: "px-3 py-1 rounded bg-white border border-gray-300 text-gray-700 hover:bg-gray-100" %>
+  <% else %>
+    <span class="px-3 py-1 rounded bg-gray-100 text-gray-400 border border-gray-300">&laquo; 前</span>
+  <% end %>
+
+  <%# ページ番号ループ %>
+  <% (1..@students.total_pages).each do |page| %>
+    <% if page == @students.current_page %>
+      <span class="px-3 py-1 rounded bg-blue-500 text-white font-semibold border border-blue-500"><%= page %></span>
+    <% else %>
+      <%= link_to page, url_for(query.merge(page: page)),
+            class: "px-3 py-1 rounded bg-white border border-gray-300 text-gray-700 hover:bg-gray-100" %>
+    <% end %>
+  <% end %>
+
+  <%# 次のページリンク %>
+  <% if @students.next_page %>
+    <%= link_to raw("次 &raquo;"), url_for(query.merge(page: @students.next_page)),
+          class: "px-3 py-1 rounded bg-white border border-gray-300 text-gray-700 hover:bg-gray-100" %>
+  <% else %>
+    <span class="px-3 py-1 rounded bg-gray-100 text-gray-400 border border-gray-300">次 &raquo;</span>
+  <% end %>
+</nav>
