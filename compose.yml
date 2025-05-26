@@ -25,6 +25,8 @@ services:
       - .:/myapp
     environment:
       TZ: Asia/Tokyo
+    env_file:           # ← これを追加！
+      - .env            # ← プロジェクトルートの .env を読み込む
     ports:
       - "3000:3000"
     user: "1000:1000"
