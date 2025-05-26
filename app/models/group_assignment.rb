@@ -38,7 +38,7 @@ class GroupAssignment < ApplicationRecord
     return false unless valid? && ability_selection.present?
 
     if save
-      strategy == 'even' ? assign_students_evenly : assign_students_to_groups
+      strategy == "even" ? assign_students_evenly : assign_students_to_groups
       true
     else
       false
@@ -66,11 +66,11 @@ class GroupAssignment < ApplicationRecord
       end
 
       matched_skills = skill_ids.present? ? student.skills.pluck(:id) & skill_ids : []
-      [student, score, matched_skills]
+      [ student, score, matched_skills ]
     end
 
     student_data.sort_by! do |_, score, skills|
-      [-(skills.size), order == :desc ? -score : score]
+      [ -(skills.size), order == :desc ? -score : score ]
     end
 
     buckets = Array.new(group_count.to_i) { [] }

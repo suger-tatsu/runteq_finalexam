@@ -1,5 +1,5 @@
 class TeachersController < ApplicationController
-  before_action :set_current_teacher, only: [:edit_password, :update_password, :edit_icon, :update_icon]
+  before_action :set_current_teacher, only: [ :edit_password, :update_password, :edit_icon, :update_icon ]
   def new
     @teacher = Teacher.new
   end
@@ -24,7 +24,7 @@ class TeachersController < ApplicationController
       if @current_teacher.update(password_params)
         redirect_to students_path, notice: "パスワードを変更しました"
       else
-        flash.now[:alert] = @current_teacher.errors.full_messages.join(', ')
+        flash.now[:alert] = @current_teacher.errors.full_messages.join(", ")
         render :edit_password
       end
     else
@@ -42,7 +42,7 @@ class TeachersController < ApplicationController
     else
       Rails.logger.error "アイコン変更失敗: #{@current_teacher.errors.full_messages}"
       @current_teacher.reload # アップロード失敗時に未保存状態をリセット
-      flash.now[:alert] = @current_teacher.errors.full_messages.join(', ')
+      flash.now[:alert] = @current_teacher.errors.full_messages.join(", ")
       render :edit_icon
     end
   end
