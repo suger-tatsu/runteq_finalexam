@@ -38,4 +38,4 @@
 
 /node_modules
 /vendor/bundle
-/config/secrets.yml
+/config/secrets.yml/config/secrets.yml
