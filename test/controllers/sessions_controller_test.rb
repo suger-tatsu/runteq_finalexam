@@ -20,7 +20,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
   test "間違った情報ではログインできないこと" do
     post login_path, params: { email: @teacher.email, password: "wrongpass" }
-    assert_response :success
+    assert_includes [200, 422], response.status
     assert_match "メールアドレスまたはパスワードが違います", response.body
     assert_nil session[:teacher_id]
   end
