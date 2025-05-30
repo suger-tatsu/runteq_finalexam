@@ -1,0 +1,16 @@
+ja:
+  activerecord:
+    models:
+      teacher: 教師
+    attributes:
+      teacher:
+        name: 氏名
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード確認
+  errors:
+    messages:
+      blank: "を入力してください"
+      inclusion: "を選んでください"
+      too_short: "は%{count}文字以上で入力してください"
+      confirmation: "と一致しません"

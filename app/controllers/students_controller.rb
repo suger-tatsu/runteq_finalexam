@@ -69,13 +69,9 @@ class StudentsController < ApplicationController
     if @student.save
       redirect_to students_path, notice: "生徒が作成されました"
     else
-      puts @student.errors.full_messages
+      Rails.logger.debug "🔥 バリデーションエラー: #{@student.errors.full_messages}"
       render :new
     end
-  rescue ActiveRecord::RecordNotUnique
-    @student.errors.add(:name, "はすでに登録されています")
-    flash.now[:alert] = @student.errors.full_messages.join(", ")
-    render :new
   end
 
   def show

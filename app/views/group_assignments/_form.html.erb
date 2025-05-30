@@ -1,5 +1,5 @@
 <div class="max-w-xl mx-auto p-6 bg-white shadow-md rounded-md">
-  <%= form_with(model: group_assignment, local: true) do |form| %>
+  <%= form_with(model: group_assignment, local: true, data: { turbo: false }) do |form| %>
     <% if group_assignment.errors.any? %>
       <div class="bg-red-100 text-red-700 p-3 mb-4 rounded">
         <p><%= pluralize(group_assignment.errors.count, "エラー") %>があります:</p>
@@ -33,9 +33,9 @@
       <% end %>
     </div>
 
-    <!-- グループ名 -->
+    <!-- グループ分けタイトル -->
     <div class="mb-4">
-      <%= form.label :title, 'グループ名', class: 'block font-bold mb-1' %>
+      <%= form.label :title, 'グループ分けタイトル', class: 'block font-bold mb-1' %>
       <%= form.text_field :title, class: 'border rounded w-full p-2' %>
     </div>
 

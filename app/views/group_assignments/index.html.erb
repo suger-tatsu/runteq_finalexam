@@ -4,13 +4,13 @@
   <main class="flex-1 p-4">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">グループ分け一覧</h1>
 
-    <%= link_to 'グループを追加する', new_group_assignment_path, class: 'inline-block bg-green-500 hover:bg-green-600 text-white rounded px-4 py-2 mb-6 shadow' %>
+    <%= link_to 'グループ分けを追加する', new_group_assignment_path, class: 'inline-block bg-green-500 hover:bg-green-600 text-white rounded px-4 py-2 mb-6 shadow' %>
 
     <!-- 検索フォーム -->
     <%= form_with url: group_assignments_path, method: :get, local: true, data: { controller: "autocomplete", autocomplete_url_value: autocomplete_group_assignments_path } do %>
       <div class="flex gap-2 items-start">
         <div class="flex-1">
-          <%= label_tag :q, "グループ名検索", class: "block text-gray-700 font-semibold mb-1" %>
+          <%= label_tag :q, "グループ分けタイトル検索", class: "block text-gray-700 font-semibold mb-1" %>
           <%= text_field_tag :q, params[:q], data: { autocomplete_target: "input", action: "input->autocomplete#search" }, class: "border border-gray-300 rounded w-full p-2" %>
           <div data-autocomplete-target="list" class="bg-white shadow rounded mt-1 absolute z-10 w-full"></div>
         </div>
@@ -32,7 +32,7 @@
     <table class="min-w-full bg-white border border-gray-300">
       <thead>
         <tr>
-          <th class="px-4 py-2 border">グループ名</th>
+          <th class="px-4 py-2 border">グループ分けタイトル</th>
           <th class="px-4 py-2 border">アクション</th>
         </tr>
       </thead>
