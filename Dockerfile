@@ -16,8 +16,14 @@ WORKDIR /rails
 
 # Install base packages
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client && \
+    apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client locales && \
+    locale-gen ja_JP.UTF-8 && \
+    update-locale LANG=ja_JP.UTF-8 && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+    ENV LANG=ja_JP.UTF-8
+    ENV LANGUAGE=ja_JP:ja
+    ENV LC_ALL=ja_JP.UTF-8
 
 # Set production environment
 ENV RAILS_ENV="production" \

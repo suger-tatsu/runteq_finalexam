@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       redirect_to students_path, notice: "ログイン成功"
     else
       flash.now[:alert] = "メールアドレスまたはパスワードが違います"
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 

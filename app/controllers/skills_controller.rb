@@ -38,6 +38,7 @@ class SkillsController < ApplicationController
       @skill.student_ids = params[:skill][:student_ids] if params[:skill][:student_ids].present?
       redirect_to skills_path, notice: "特技が作成されました！" # 作成成功時のリダイレクト
     else
+      @students = current_teacher.students
       render :new # 作成失敗時は新規作成フォームを再表示
     end
   end

@@ -12,7 +12,7 @@ class TeachersController < ApplicationController
       redirect_to login_path  # ログインページにリダイレクト
     else
       # エラーハンドリング
-      render :new  # エラーがあった場合、新規登録フォームを再表示
+      render partial: "form", locals: { teacher: @teacher }, status: :unprocessable_entity
     end
   end
 

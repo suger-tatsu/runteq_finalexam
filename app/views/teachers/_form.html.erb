@@ -1,0 +1,35 @@
+<%= form_with model: teacher do |form| %>
+  <% if teacher.errors.any? %>
+    <div style="background-color: #ffecec; border: 1px solid red; padding: 10px; margin-bottom: 20px;">
+      <p><%= pluralize(teacher.errors.count, "件のエラー") %>が発生しました:</p>
+      <ul>
+        <% teacher.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div style="display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
+    <div>
+      <%= form.label :name %>
+      <%= form.text_field :name, class: 'input-field' %>
+    </div>
+    <div>
+      <%= form.label :email %>
+      <%= form.email_field :email, class: 'input-field' %>
+    </div>
+    <div>
+      <%= form.label :password %>
+      <%= form.password_field :password, class: 'input-field' %>
+    </div>
+    <div>
+      <%= form.label :password_confirmation, "パスワードの確認" %>
+      <%= form.password_field :password_confirmation, class: 'input-field' %>
+    </div>
+    <div>
+      <%= form.submit "登録", class: 'button' %>
+    </div>
+    <%= link_to 'トップページに戻る', root_path, class: 'button', data: { turbo: false } %>
+  </div>
+<% end %>
