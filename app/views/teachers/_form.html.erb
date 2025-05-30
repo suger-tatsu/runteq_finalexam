@@ -1,4 +1,4 @@
-<%= form_with model: teacher do |form| %>
+<%= form_with model: teacher, data: { turbo_frame: "_top" } do |form| %>
   <% if teacher.errors.any? %>
     <div style="background-color: #ffecec; border: 1px solid red; padding: 10px; margin-bottom: 20px;">
       <p><%= pluralize(teacher.errors.count, "件のエラー") %>が発生しました:</p>
