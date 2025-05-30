@@ -12,7 +12,7 @@ class TeachersController < ApplicationController
       redirect_to login_path  # ログインページにリダイレクト
     else
       # エラーハンドリング
-      render partial: "form", locals: { teacher: @teacher }, status: :unprocessable_entity
+      render :new, status: :unprocessable_entity
     end
   end
 
