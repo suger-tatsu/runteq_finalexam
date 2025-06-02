@@ -1,0 +1,23 @@
+<h1>共有設定</h1>
+
+<%= form_with model: @group_assignment, url: update_sharing_group_assignment_path(@group_assignment), local: true do |form| %>
+  <div class="mb-4">
+    <% if @group_assignment.public_token.present? %>
+      <p>現在の共有URL:</p>
+      <input type="text" readonly class="border p-2 w-full" value="<%= public_group_assignment_url(token: @group_assignment.public_token) %>">
+    <% else %>
+      <p>共有URLは未発行です。保存すると発行されます。</p>
+    <% end %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :public_password, "パスワード (任意)" %>
+    <%= form.password_field :public_password, class: "border p-2 w-full" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.submit "共有設定を保存", class: "bg-blue-500 text-white px-4 py-2 rounded" %>
+  </div>
+<% end %>
+
+<%= link_to "戻る", group_assignment_path(@group_assignment), class: "text-blue-500" %>

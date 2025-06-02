@@ -20,6 +20,8 @@
   </div>
 
   <div class="mt-6 text-center">
-    <%= link_to 'グループ一覧に戻る', group_assignments_path, class: 'text-blue-600 hover:underline' %>
+    <%= link_to 'グループ一覧に戻る', group_assignments_path, class: "bg-green-500 text-white px-4 py-2 rounded" %>
+    <%= link_to "共有設定", share_settings_group_assignment_path(@group_assignment), class: "bg-green-500 text-white px-4 py-2 rounded" %>
+
   </div>
 </div>
