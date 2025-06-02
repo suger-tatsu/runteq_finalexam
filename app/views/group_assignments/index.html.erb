@@ -33,6 +33,7 @@
       <thead>
         <tr>
           <th class="px-4 py-2 border">グループ分けタイトル</th>
+          <th class="px-4 py-2 border">共有状況</th>
           <th class="px-4 py-2 border">アクション</th>
         </tr>
       </thead>
@@ -42,6 +43,19 @@
             <td class="border px-4 py-2">
               <%= link_to group.title, group_assignment_path(group), class: 'text-blue-500' %>
             </td>
+
+            <td class="border px-4 py-2 text-center">
+              <% if group.public_token.present? %>
+                <% if group.public_enabled %>
+                  <span class="text-green-600 font-semibold">公開中</span>
+                <% else %>
+                  <span class="text-gray-400">非公開</span>
+                <% end %>
+              <% else %>
+                <span class="text-gray-400">未発行</span>
+              <% end %>
+            </td>
+
             <td class="border px-4 py-2">
               <div class="flex space-x-4">
                 <%= link_to '編集', edit_groups_group_assignment_path(group), class: 'text-blue-500' %>
@@ -50,6 +64,13 @@
                       method: :delete,
                       class: 'text-red-500',
                       data: { controller: 'confirm', action: 'confirm#confirm' } %>
+
+                <% if group.public_token.present? %>
+                  <%= button_to (group.public_enabled ? '非公開にする' : '公開にする'),
+                      toggle_sharing_group_assignment_path(group),
+                      method: :patch,
+                      class: 'text-purple-500' %>
+                <% end %>
               </div>
             </td>
           </tr>

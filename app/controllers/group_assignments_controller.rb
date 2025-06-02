@@ -1,5 +1,6 @@
 class GroupAssignmentsController < ApplicationController
   before_action :set_current_teacher
+  before_action :set_group_assignment, only: [ :show, :edit_groups, :update_groups, :destroy, :share_settings, :update_sharing ]
 
   def index
     @group_assignments = current_teacher.group_assignments
@@ -43,26 +44,20 @@ class GroupAssignmentsController < ApplicationController
   end
 
   def show
-    @group_assignment = GroupAssignment.find(params[:id])
     @groups = @group_assignment.groups.includes(:students)
   end
 
   def destroy
-    @group_assignment = GroupAssignment.find(params[:id])
     @group_assignment.destroy
     redirect_to group_assignments_path, notice: "削除されました！"
   end
 
   def edit_groups
-    @group_assignment = GroupAssignment.find(params[:id])
     @groups = @group_assignment.groups.includes(:students)
   end
 
   def update_groups
-    @group_assignment = GroupAssignment.find(params[:id])
-
     ActiveRecord::Base.transaction do
-      # 既存の割り当てを削除（安全策）
       GroupAssignmentStudent.where(group_assignment_id: @group_assignment.id).delete_all
 
       params[:groups]&.each do |group_id, student_ids|
@@ -82,6 +77,32 @@ class GroupAssignmentsController < ApplicationController
     redirect_to group_assignment_path(@group_assignment), notice: "グループ構成を更新しました"
   end
 
+  def share_settings
+  end
+
+  def update_sharing
+    if @group_assignment.public_token.blank?
+      @group_assignment.generate_public_token
+    end
+
+    if params[:group_assignment][:public_password].present?
+      @group_assignment.public_password = params[:group_assignment][:public_password]
+    end
+
+    if @group_assignment.save
+      redirect_to group_assignment_path(@group_assignment), notice: "共有設定を更新しました"
+    else
+      flash.now[:alert] = "保存に失敗しました"
+      render :share_settings, status: :unprocessable_entity
+    end
+  end
+
+  def toggle_sharing
+    @group_assignment = current_teacher.group_assignments.find(params[:id])
+    @group_assignment.update(public_enabled: !@group_assignment.public_enabled)
+    redirect_to group_assignments_path, notice: "共有状態を変更しました"
+  end
+
   private
 
   def set_current_teacher
@@ -92,13 +113,17 @@ class GroupAssignmentsController < ApplicationController
     end
   end
 
+  def set_group_assignment
+    @group_assignment = current_teacher.group_assignments.find(params[:id])
+  end
+
   def group_assignment_params
     params.require(:group_assignment).permit(
       :title, :group_count, :strategy,
       student_ids: [],
       ability_selection: [],
       skill_ids: [],
-      ability_weights: {} # ← 追加
+      ability_weights: {}
     )
   end
 end

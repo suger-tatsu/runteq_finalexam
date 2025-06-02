@@ -9,10 +9,12 @@ class GroupAssignment < ApplicationRecord
   attr_accessor :strategy, :selected_student_ids, :skill_ids, :ability_weights
 
   after_initialize :set_defaults, if: :new_record?
+  before_create :generate_public_token
 
-  def set_defaults
-    self.ability_selection ||= []
-    self.ability_weights ||= {}
+  has_secure_password :public_password, validations: false
+
+  def generate_public_token
+    self.public_token ||= SecureRandom.urlsafe_base64(16)
   end
 
   def self.new_from_params(params, teacher)
@@ -54,6 +56,12 @@ class GroupAssignment < ApplicationRecord
   end
 
   private
+
+  def set_defaults
+    self.ability_selection ||= []
+    self.ability_weights ||= {}
+    self.public_enabled = false if public_enabled.nil?  # ← ここを追加
+  end
 
   def distribute_students(order:, zigzag: false)
     students = Student.where(id: selected_student_ids)

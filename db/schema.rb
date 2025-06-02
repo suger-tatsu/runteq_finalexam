@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_23_033841) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_02_064639) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -60,6 +60,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_23_033841) do
     t.datetime "updated_at", null: false
     t.jsonb "ability_selection"
     t.integer "group_count"
+    t.string "public_token"
+    t.string "public_password_digest"
+    t.boolean "public_enabled", default: false
+    t.index ["public_token"], name: "index_group_assignments_on_public_token", unique: true
     t.index ["teacher_id"], name: "index_group_assignments_on_teacher_id"
   end
 

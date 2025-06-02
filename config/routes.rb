@@ -36,8 +36,17 @@ Rails.application.routes.draw do
     member do
       get :edit_groups         # 編集画面表示
       patch :update_groups     # 編集内容保存
+      get :share_settings
+      patch :update_sharing
+      patch :toggle_sharing
     end
   end
+
+    namespace :public do
+      get "group_assignments/:token", to: "group_assignments#show", as: "group_assignment"
+      get "group_assignments/:token/password", to: "group_assignments#password", as: "password_group_assignment"
+      post "group_assignments/:token/verify_password", to: "group_assignments#verify_password", as: "verify_password_group_assignment"
+   end
 
   # 健康チェック（Herokuや監視向け）
   get "up" => "rails/health#show", as: :rails_health_check
