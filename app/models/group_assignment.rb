@@ -5,6 +5,8 @@ class GroupAssignment < ApplicationRecord
   has_many :students, through: :group_assignment_students
 
   validates :title, presence: true
+  validate :strategy_presence
+  validate :ability_selection_presence
 
   attr_accessor :strategy, :selected_student_ids, :skill_ids, :ability_weights
 
@@ -56,6 +58,18 @@ class GroupAssignment < ApplicationRecord
   end
 
   private
+
+   def strategy_presence
+    if strategy.blank?
+      errors.add(:strategy, "を選択してください")
+    end
+  end
+
+  def ability_selection_presence
+    if ability_selection.blank? || ability_selection.empty?
+      errors.add(:ability_selection, "を1つ以上選択してください")
+    end
+  end
 
   def set_defaults
     self.ability_selection ||= []
