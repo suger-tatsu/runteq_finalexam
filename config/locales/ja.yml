@@ -2,15 +2,44 @@ ja:
   activerecord:
     models:
       teacher: 教師
+      student: 生徒
+      skill: 特技タグ
+      group_assignment: グループ分け
+      group: グループ
     attributes:
       teacher:
         name: 氏名
         email: メールアドレス
         password: パスワード
         password_confirmation: パスワード確認
+      student:
+        name: 氏名
+        gender: 性別
+        athletic_ability: 運動能力
+        leadership: リーダーシップ
+        cooperation: 協調性
+        science: 理系能力
+        humanities: 文系能力
+        skill_ids: 特技タグ
+      skill:
+        name: 特技名
+      group_assignment:
+        title: タイトル
+        group_count: グループ数
+        strategy: 分け方
+        ability_selection: 能力
+      group:
+        name: グループ名
+
+  helpers:
+    submit:
+      create: "作成"
+      update: "更新"
+      submit: "保存"
+
   errors:
     messages:
-      blank: "を入力してください"
+      blank: "を1つ以上選択してください"
       inclusion: "を選んでください"
       too_short: "は%{count}文字以上で入力してください"
       confirmation: "と一致しません"
