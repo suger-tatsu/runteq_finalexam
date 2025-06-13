@@ -4,6 +4,7 @@ class Public::GroupAssignmentsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @teacher = teachers(:one)
     @student = Student.create!(
+      name: "テスト生徒",
       athletic_ability: 5,
       leadership: 3,
       cooperation: 4,
