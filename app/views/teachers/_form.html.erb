@@ -1,35 +1,41 @@
-<%= form_with model: teacher, data: { turbo_frame: "_top" } do |form| %>
-  <% if teacher.errors.any? %>
-    <div style="background-color: #ffecec; border: 1px solid red; padding: 10px; margin-bottom: 20px;">
-      <p><%= pluralize(teacher.errors.count, "件のエラー") %>が発生しました:</p>
-      <ul>
-        <% teacher.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
+<div class="max-w-xl mx-auto p-6 bg-white shadow-md rounded-md">
+  <h2 class="text-xl font-bold mb-4 text-center">教師の新規登録</h2>
+
+  <%= form_with model: teacher, data: { turbo_frame: "_top" }, class: "space-y-4" do |form| %>
+    <% if teacher.errors.any? %>
+      <div class="bg-red-100 text-red-700 p-3 mb-4 rounded">
+        <p><%= pluralize(teacher.errors.count, "件のエラー") %>が発生しました:</p>
+        <ul class="list-disc pl-5">
+          <% teacher.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-4">
+      <%= form.label :name, "氏名", class: "block font-bold mb-1" %>
+      <%= form.text_field :name, class: 'border rounded w-full p-2' %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :email, "メールアドレス", class: "block font-bold mb-1" %>
+      <%= form.email_field :email, class: 'border rounded w-full p-2' %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :password, "パスワード", class: "block font-bold mb-1" %>
+      <%= form.password_field :password, class: 'border rounded w-full p-2' %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :password_confirmation, "パスワード確認", class: "block font-bold mb-1" %>
+      <%= form.password_field :password_confirmation, class: 'border rounded w-full p-2' %>
+    </div>
+
+    <div class="flex flex-col items-center space-y-2">
+      <%= form.submit "登録", class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded' %>
+      <%= link_to 'トップページに戻る', root_path, class: 'text-blue-500 hover:underline', data: { turbo: false } %>
     </div>
   <% end %>
-
-  <div style="display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
-    <div>
-      <%= form.label :name %>
-      <%= form.text_field :name, class: 'input-field' %>
-    </div>
-    <div>
-      <%= form.label :email %>
-      <%= form.email_field :email, class: 'input-field' %>
-    </div>
-    <div>
-      <%= form.label :password %>
-      <%= form.password_field :password, class: 'input-field' %>
-    </div>
-    <div>
-      <%= form.label :password_confirmation, "パスワードの確認" %>
-      <%= form.password_field :password_confirmation, class: 'input-field' %>
-    </div>
-    <div>
-      <%= form.submit "登録", class: 'button' %>
-    </div>
-    <%= link_to 'トップページに戻る', root_path, class: 'button', data: { turbo: false } %>
-  </div>
-<% end %>
+</div>
