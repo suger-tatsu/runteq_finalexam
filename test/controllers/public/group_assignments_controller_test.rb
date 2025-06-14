@@ -20,18 +20,18 @@ class Public::GroupAssignmentsControllerTest < ActionDispatch::IntegrationTest
       public_token: "testtoken",
       public_enabled: true,
       group_count: 1,
-      ability_selection: ["athletic_ability"],
+      ability_selection: [ "athletic_ability" ],
       strategy: "even"
     )
 
-    @assignment.selected_student_ids = [@student.id]
+    @assignment.selected_student_ids = [ @student.id ]
     @assignment.ability_weights = { "athletic_ability" => 1 }
     @assignment.public_password = "sample"
 
-    success = @assignment.save_and_assign_groups
-    unless success
-      puts @assignment.errors.full_messages
-      raise "GroupAssignment バリデーションエラー"
+    # 👇 puts をここに追加
+    unless @assignment.save_and_assign_groups
+      puts "[DEBUG] GroupAssignmentバリデーションエラー: #{@assignment.errors.full_messages.inspect}"
+      raise "GroupAssignment save_and_assign_groups に失敗"
     end
   end
 
