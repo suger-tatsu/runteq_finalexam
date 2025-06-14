@@ -2,10 +2,10 @@
 
 one:
   name: テスト教師
-  email: myString2@uuu
+  email: mystring2@uuu
   password_digest: <%= BCrypt::Password.create('password123') %>
 
 two:
   name: MyString4
-  email: myString5@ppp
+  email: mystring5@ppp
   password_digest: <%= BCrypt::Password.create('password143') %>
