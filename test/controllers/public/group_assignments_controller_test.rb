@@ -3,31 +3,36 @@ require "test_helper"
 class Public::GroupAssignmentsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @teacher = teachers(:one)
+
     @student = Student.create!(
       name: "テスト生徒",
       athletic_ability: 5,
-      leadership: 3,
-      cooperation: 4,
+      leadership: 4,
+      cooperation: 3,
       science: 2,
-      humanities: 3,
+      humanities: 1,
       teacher: @teacher
     )
 
     @assignment = GroupAssignment.new(
-      title: "テスト用",
+      title: "テスト用課題",
       teacher: @teacher,
       public_token: "testtoken",
       public_enabled: true,
       group_count: 1,
-      ability_selection: [ "athletic_ability" ],
+      ability_selection: ["athletic_ability"],
       strategy: "even"
     )
 
-    @assignment.selected_student_ids = [ @student.id ]
+    @assignment.selected_student_ids = [@student.id]
     @assignment.ability_weights = { "athletic_ability" => 1 }
-
     @assignment.public_password = "sample"
-    @assignment.save_and_assign_groups
+
+    success = @assignment.save_and_assign_groups
+    unless success
+      puts @assignment.errors.full_messages
+      raise "GroupAssignment バリデーションエラー"
+    end
   end
 
   test "should get show" do
