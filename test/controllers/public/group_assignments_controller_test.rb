@@ -6,6 +6,9 @@ class Public::GroupAssignmentsControllerTest < ActionDispatch::IntegrationTest
 
     @student = Student.create!(
       name: "テスト生徒",
+      gender: "男",               # 必須なら追加
+      height: 160.0,
+      weight: 55.0,
       athletic_ability: 5,
       leadership: 4,
       cooperation: 3,
@@ -23,16 +26,12 @@ class Public::GroupAssignmentsControllerTest < ActionDispatch::IntegrationTest
       ability_selection: [ "athletic_ability" ],
       strategy: "even"
     )
-
     @assignment.selected_student_ids = [ @student.id ]
     @assignment.ability_weights = { "athletic_ability" => 1 }
     @assignment.public_password = "sample"
 
-    # 👇 puts をここに追加
-    unless @assignment.save_and_assign_groups
-      puts "[DEBUG] GroupAssignmentバリデーションエラー: #{@assignment.errors.full_messages.inspect}"
-      raise "GroupAssignment save_and_assign_groups に失敗"
-    end
+    success = @assignment.save_and_assign_groups
+    raise "GroupAssignment保存失敗: #{@assignment.errors.full_messages}" unless success
   end
 
   test "should get show" do
@@ -44,9 +43,10 @@ class Public::GroupAssignmentsControllerTest < ActionDispatch::IntegrationTest
   test "should get password" do
     get public_password_group_assignment_path(token: @assignment.public_token)
     assert_response :success
+    assert_match "パスワード", response.body
   end
 
-  test "should verify password" do
+  test "should verify password and redirect to show" do
     post public_verify_password_group_assignment_path(token: @assignment.public_token), params: { password: "sample" }
     assert_response :redirect
     assert_redirected_to public_group_assignment_path(token: @assignment.public_token)
