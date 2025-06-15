@@ -1,0 +1,35 @@
+<% content_for :title do %>プライバシーポリシー<% end %>
+<%= render "static/static_layout" do %>
+
+<p class="mb-6">
+当サービスは、ユーザーの個人情報保護を最優先事項とし、以下の方針で取り扱います。
+</p>
+
+<h2 class="font-semibold text-lg mt-6 mb-2">1. 収集する情報</h2>
+<ul class="list-disc list-inside mb-4">
+  <li>教師アカウント情報（氏名・メールアドレス）</li>
+  <li>生徒情報（氏名・能力値・特技タグ）</li>
+  <li>フィードバック内容（任意）</li>
+  <li>アクセスログ（IP・ブラウザ情報等）</li>
+</ul>
+
+<h2 class="font-semibold text-lg mt-6 mb-2">2. 利用目的</h2>
+<ul class="list-disc list-inside mb-4">
+  <li>グループ分け機能の提供</li>
+  <li>お問い合わせ対応</li>
+  <li>サービス改善・統計分析</li>
+</ul>
+
+<h2 class="font-semibold text-lg mt-6 mb-2">3. 第三者提供</h2>
+<p class="mb-4">
+法令に基づく場合を除き、ご本人の同意なく第三者へ提供いたしません。
+</p>
+
+<h2 class="font-semibold text-lg mt-6 mb-2">4. セキュリティ</h2>
+<p class="mb-4">
+SSL通信、アクセス制御など適切な安全対策を実施します。
+</p>
+<div class="mt-10 text-center">
+  <%= link_to 'ホームに戻る', root_path, class: 'inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded' %>
+</div>
+<% end %>

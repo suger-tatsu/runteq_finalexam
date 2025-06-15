@@ -1,3 +1,11 @@
+<% content_for :head do %>
+  <meta property="og:title" content="<%= @group_assignment.title %> - 公開グループ分け" />
+  <meta property="og:description" content="このグループ分けは、<%= @group_assignment.created_at.to_date %> に作成されました。" />
+  <meta property="og:image" content="<%= image_url('ogp-group-share.jpg') %>" />
+  <meta property="og:url" content="<%= request.original_url %>" />
+  <meta property="og:type" content="article" />
+<% end %>
+
 <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">
   <%= @group_assignment.title %> グループ分け結果
 </h1>

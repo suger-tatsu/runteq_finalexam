@@ -13,4 +13,27 @@ class Teacher < ApplicationRecord
   has_many :students, dependent: :destroy
   has_many :skills, dependent: :destroy
   has_many :group_assignments, dependent: :destroy
+
+  def self.new_token
+    SecureRandom.urlsafe_base64
+  end
+
+  def remember
+    self.remember_token = Teacher.new_token
+    update(remember_digest: BCrypt::Password.create(remember_token))
+  end
+
+  def authenticated?(attribute, token)
+    digest = send("#{attribute}_digest")
+    return false if digest.blank? || token.blank?
+    BCrypt::Password.new(digest).is_password?(token)
+  rescue BCrypt::Errors::InvalidHash
+    false
+  end
+
+  attr_accessor :remember_token
+
+  def forget
+    update(remember_digest: nil)
+  end
 end

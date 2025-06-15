@@ -1,0 +1,55 @@
+<% content_for :title do %>このアプリの使い方<% end %>
+<%= render "static/static_layout" do %>
+
+<p class="mb-6">
+本サービスは、教師が生徒を<strong>能力値（5パラメータ）</strong>と<strong>特技タグ</strong>に基づいて
+公平にグループ分けできる教育支援ツールです。以下の手順でご利用ください。
+</p>
+
+<ol class="space-y-6 list-decimal list-inside">
+  <li>
+    <h2 class="font-semibold text-lg mb-2">生徒を登録する</h2>
+    <p class="mb-2">左メニュー「生徒一覧」▶︎「新規登録」から姓名と5つの能力値を入力。</p>
+    <p class="text-sm text-gray-500">※ 後から編集も可能です。</p>
+  </li>
+
+  <li>
+    <h2 class="font-semibold text-lg mb-2">特技を登録する</h2>
+    <p class="mb-2">「特技一覧」でタグを追加し、生徒にチェックを入れて紐づけます。</p>
+  </li>
+
+  <li>
+    <h2 class="font-semibold text-lg mb-2">グループ分けを作成する</h2>
+    <p class="mb-2">
+      ➤ 「グループ分け」▶︎「新規作成」で<br>
+      ・グループ数<br>
+      ・分け方（能力差／均等）<br>
+      ・特技のばらけ基準<br>
+      ・能力ごとの<strong>重み</strong> を設定します。
+    </p>
+  </li>
+
+  <li>
+    <h2 class="font-semibold text-lg mb-2">結果を共有（任意）</h2>
+    <p class="mb-2">
+      詳細画面の「共有リンク作成」から URL を発行。パスワード保護も可能です。
+    </p>
+  </li>
+
+  <li>
+    <h2 class="font-semibold text-lg mb-2">フィードバック収集（任意）</h2>
+    <p class="mb-2">
+      共有ページ下部のフォームで、生徒・保護者からグループ満足度を受け取れます
+      （管理画面で確認）。
+    </p>
+  </li>
+</ol>
+
+<p class="text-sm text-gray-600 mt-8">
+※ 本サービスは教育現場での利用を想定し、登録情報は適切に保護されます。
+</p>
+<div class="mt-10 text-center">
+  <%= link_to 'ホームに戻る', root_path, class: 'inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded' %>
+</div>
+
+<% end %>

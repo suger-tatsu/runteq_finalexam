@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString1
-  email: MyString2
+  name: テスト教師
+  email: mystring2@uuu
   password_digest: <%= BCrypt::Password.create('password123') %>
 
 two:
   name: MyString4
-  email: MyString5
+  email: mystring5@ppp
   password_digest: <%= BCrypt::Password.create('password143') %>

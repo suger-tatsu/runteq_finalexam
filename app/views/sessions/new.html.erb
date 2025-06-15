@@ -1,31 +1,27 @@
-<head>
-  <link rel="stylesheet" href="styles.css"> <!-- 外部CSSファイルをリンク -->
-</head>
-<body>
-  <h1 style="text-align: center;">ログイン</h1>
+<div class="max-w-xl mx-auto p-6 bg-white shadow-md rounded-md">
+  <h2 class="text-xl font-bold mb-4 text-center">ログイン</h2>
 
-  <% if flash.now[:alert] %>
-    <div class="bg-red-100 text-red-700 border border-red-300 p-4 mb-4 rounded text-center font-bold max-w-md mx-auto"><%= flash.now[:alert] %></div>
+  <%= form_with url: login_path, local: true do |form| %>
+    <div class="mb-4">
+      <%= form.label :email, "メールアドレス", class: "block font-bold mb-1" %>
+      <%= form.email_field :email, name: 'session[email]', required: true, class: 'border rounded w-full p-2' %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :password, "パスワード", class: "block font-bold mb-1" %>
+      <%= form.password_field :password, name: 'session[password]', required: true, class: 'border rounded w-full p-2' %>
+    </div>
+
+    <div class="mb-4">
+      <label class="inline-flex items-center">
+        <%= check_box_tag 'session[remember_me]', '1', false, class: "mr-2" %>
+        <span>次回から自動ログインする</span>
+      </label>
+    </div>
+
+    <div class="flex flex-col items-center space-y-2">
+      <%= form.submit "ログイン", class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded' %>
+      <%= link_to 'トップページに戻る', root_path, class: 'text-blue-500 hover:underline' %>
+    </div>
   <% end %>
-
-  <div style="display: flex; flex-direction: column; align-items: center; margin-top: 20px; text-align: center;">
-    <%= form_with(url: login_path, local: true) do |form| %>
-      <div>
-        <%= form.label :email, "メールアドレス" %>
-        <%= form.email_field :email, required: true, class: 'input-field' %>
-      </div>
-
-      <div>
-        <%= form.label :password, "パスワード" %>
-        <%= form.password_field :password, required: true, class: 'input-field' %>
-      </div>
-
-      <div>
-        <%= form.submit "ログイン", class: 'button' %>
-      </div>
-    <% end %>
-
-    <!-- トップページに戻るボタン -->
-    <%= link_to 'トップページに戻る', root_path, class: 'button' %>
-  </div>
-</body>
+</div>
