@@ -23,6 +23,7 @@ services:
     stdin_open: true
     volumes:
       - .:/myapp
+      - /myapp/node_modules
     environment:
       TZ: Asia/Tokyo
     env_file:           # ← これを追加！

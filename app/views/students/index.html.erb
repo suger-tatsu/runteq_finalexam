@@ -11,9 +11,10 @@
     <!-- 検索 + 並び替えフォーム -->
     <%= form_with url: students_path, method: :get, local: true, class: "mb-6 flex flex-col md:flex-row gap-4 items-end" do %>
       <!-- 名前検索 -->
-      <div class="flex-1">
+      <div class="flex-1" data-controller="autocomplete" data-autocomplete-url-value="<%= autocomplete_students_path %>">
         <%= label_tag :q, "名前検索", class: "block text-sm font-semibold mb-1" %>
-        <%= text_field_tag :q, params[:q], class: "border border-gray-300 rounded w-full p-2" %>
+        <%= text_field_tag :q, params[:q], class: "border border-gray-300 rounded w-full p-2", data: { autocomplete_target: "input", action: "input->autocomplete#search" } %>
+        <div data-autocomplete-target="list" class="bg-white shadow rounded mt-1 absolute z-10 w-full"></div>
       </div>
 
       <!-- 並び替え -->
