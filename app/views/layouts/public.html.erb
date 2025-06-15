@@ -7,9 +7,9 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
-  <meta property="og:title" content="<%= @group_assignment.title %> グループ分け結果" />
-  <meta property="og:description" content="生徒数: <%= @group_assignment.students.count %>人のグループ分けです。" />
-  <meta property="og:image" content="<%= request.base_url + image_path('ogp-default.jpg') %>" />
+  <meta property="og:title" content="<%= h(@group_assignment.title) %> グループ分け結果" />
+  <meta property="og:description" content="生徒数: <%= @group_assignment.students.count.to_s %>人のグループ分けです。" />
+  <meta property="og:image" content="<%= url_for(image_path('ogp-group-share.jpg')) %>" />
   <meta property="og:url" content="<%= request.original_url %>" />
 
   <%= csrf_meta_tags %>
