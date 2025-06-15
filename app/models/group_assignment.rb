@@ -41,12 +41,14 @@ class GroupAssignment < ApplicationRecord
   def save_and_assign_groups
     return false unless valid? && ability_selection.present?
 
-    if save
+    ActiveRecord::Base.transaction do
+      self.save!
       strategy == "even" ? assign_students_evenly : assign_students_to_groups
-      true
-    else
-      false
     end
+    true
+  rescue => e
+    Rails.logger.debug "[GroupAssignment Error] #{e.message}"
+    false
   end
 
   def assign_students_to_groups

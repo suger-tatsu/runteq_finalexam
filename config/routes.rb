@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get "static/terms"
+  get "static/privacy"
+  get "static/guide"
   root "home#index"
 
   # セッション関連
