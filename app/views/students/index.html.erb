@@ -8,16 +8,13 @@
 
     <%= link_to '生徒を作成する', new_student_path, class: 'inline-block bg-green-500 hover:bg-green-600 text-white rounded px-4 py-2 mb-6 shadow' %>
 
-    <!-- 検索 + 並び替えフォーム -->
     <%= form_with url: students_path, method: :get, local: true, class: "mb-6 flex flex-col md:flex-row gap-4 items-end" do %>
-      <!-- 名前検索 -->
       <div class="flex-1" data-controller="autocomplete" data-autocomplete-url-value="<%= autocomplete_students_path %>">
         <%= label_tag :q, "名前検索", class: "block text-sm font-semibold mb-1" %>
         <%= text_field_tag :q, params[:q], class: "border border-gray-300 rounded w-full p-2", data: { autocomplete_target: "input", action: "input->autocomplete#search" } %>
         <div data-autocomplete-target="list" class="bg-white shadow rounded mt-1 absolute z-10 w-full"></div>
       </div>
 
-      <!-- 並び替え -->
       <div>
         <%= label_tag :sort, "並び替え", class: "block text-sm font-semibold mb-1" %>
         <%= select_tag :sort, options_for_select([
@@ -43,13 +40,11 @@
         %>
       </div>
 
-      <!-- 検索ボタン -->
       <div>
         <%= submit_tag "検索", class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded shadow mt-6 md:mt-0" %>
       </div>
     <% end %>
 
-    <!-- 生徒テーブル -->
     <div class="overflow-x-auto rounded shadow">
       <table class="min-w-full table-auto bg-white border border-gray-200">
         <thead class="bg-gray-100 text-gray-700 text-sm">
@@ -85,7 +80,6 @@
       </table>
     </div>
 
-    <!-- ページネーション -->
     <div class="mt-6 flex justify-center">
       <%= paginate @students, params: { q: params[:q], sort: params[:sort] } %>
     </div>

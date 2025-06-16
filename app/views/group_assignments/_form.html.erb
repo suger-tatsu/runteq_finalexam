@@ -11,7 +11,6 @@
       </div>
     <% end %>
 
-    <!-- 特技検索付きラジオ -->
     <div class="mb-4" data-controller="filter">
       <p class="font-bold mb-2">特技を基準にばらけさせる（1つだけ）</p>
 
@@ -33,19 +32,16 @@
       <% end %>
     </div>
 
-    <!-- グループ分けタイトル -->
     <div class="mb-4">
       <%= form.label :title, 'グループ分けタイトル', class: 'block font-bold mb-1' %>
       <%= form.text_field :title, class: 'border rounded w-full p-2' %>
     </div>
 
-    <!-- グループ数 -->
     <div class="mb-4">
       <%= form.label :group_count, 'グループ数', class: 'block font-bold mb-1' %>
       <%= form.number_field :group_count, min: 2, max: 10, class: 'border rounded w-full p-2' %>
     </div>
 
-    <!-- 分け方 -->
     <div class="mb-4">
       <%= form.label :strategy, '分け方の選択', class: 'block font-bold mb-1' %>
       <%= form.select :strategy,
@@ -54,7 +50,6 @@
             class: 'border rounded w-full p-2' %>
     </div>
 
-    <!-- 生徒検索 -->
     <div class="mb-4" data-controller="filter select-all">
       <label class="block font-bold mb-1">生徒検索</label>
       <%= text_field_tag :student_search, nil,
@@ -78,7 +73,6 @@
       <% end %>
     </div>
 
-    <!-- 能力と重み入力 -->
     <div class="mb-4">
   <p class="font-bold mb-2">能力を選択（重みを設定）</p>
     <% {
@@ -103,7 +97,6 @@
     <% end %>
   </div>
 
-    <!-- 送信 -->
     <%= form.submit group_assignment.new_record? ? '作成' : '更新',
           class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded' %>
     <%= link_to 'グループ一覧に戻る', group_assignments_path, class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded' %>
