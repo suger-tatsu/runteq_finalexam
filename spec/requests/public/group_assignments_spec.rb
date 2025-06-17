@@ -9,8 +9,8 @@ RSpec.describe "Public::GroupAssignments", type: :request do
       title: "公開用課題",
       group_count: 1,
       strategy: "even",
-      student_ids: [student.id],
-      ability_selection: ["athletic_ability"],
+      student_ids: [ student.id ],
+      ability_selection: [ "athletic_ability" ],
       ability_weights: { "athletic_ability" => "1" }
     }, teacher).tap do |a|
       a.public_token = "testtoken"

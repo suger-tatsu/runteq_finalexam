@@ -18,8 +18,8 @@ RSpec.describe "GroupAssignments", type: :request do
             title: "テストグループ",
             group_count: 1,
             strategy: "even",
-            student_ids: [student1.id, student2.id],
-            ability_selection: ["athletic_ability"],
+            student_ids: [ student1.id, student2.id ],
+            ability_selection: [ "athletic_ability" ],
             ability_weights: { athletic_ability: "1" }
           }
         }
