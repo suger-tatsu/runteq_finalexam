@@ -8,7 +8,7 @@ class TeachersController < ApplicationController
     @teacher = Teacher.new(teacher_params)  # フォームからのパラメータを使って新しい教師を作成
     if @teacher.save
       flash[:success] = "登録が完了しました。ログインしてください。"
-      session[:user_id] = @teacher.id  # ユーザーIDをセッションに保存
+      session[:teacher_id] = @teacher.id  # ユーザーIDをセッションに保存
       redirect_to login_path  # ログインページにリダイレクト
     else
       # エラーハンドリング
@@ -54,7 +54,7 @@ class TeachersController < ApplicationController
   end
 
   def set_current_teacher
-    @current_teacher = Teacher.find(session[:teacher_id])
+    @current_teacher = Teacher.find_by(session[:teacher_id])
     unless @current_teacher
       redirect_to login_path, alert: "ログインしてください"
     end
