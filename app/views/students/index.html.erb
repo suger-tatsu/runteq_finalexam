@@ -8,56 +8,52 @@
 
     <%= link_to '生徒を作成する', new_student_path, class: 'inline-block bg-green-500 hover:bg-green-600 text-white rounded px-4 py-2 mb-6 shadow' %>
 
-    <%= form_with url: students_path, method: :get, local: true, class: "mb-6 flex flex-col md:flex-row gap-4 items-end" do %>
-      <div class="flex-1" data-controller="autocomplete" data-autocomplete-url-value="<%= autocomplete_students_path %>">
-        <%= label_tag :q, "名前検索", class: "block text-sm font-semibold mb-1" %>
-        <%= text_field_tag :q, params[:q], class: "border border-gray-300 rounded w-full p-2", data: { autocomplete_target: "input", action: "input->autocomplete#search" } %>
-        <div data-autocomplete-target="list" class="bg-white shadow rounded mt-1 absolute z-10 w-full"></div>
-      </div>
+    <!-- 🔍 検索フォーム -->
+    <%= form_with url: students_path, method: :get, local: true, data: { controller: "autocomplete", autocomplete_url_value: autocomplete_students_path } do %>
+      <div class="flex gap-2 items-start">
+        <div class="flex-1">
+          <%= label_tag :q, "名前検索", class: "block text-gray-700 font-semibold mb-1" %>
+          <%= text_field_tag :q, params[:q], data: { autocomplete_target: "input", action: "input->autocomplete#search" }, class: "border border-gray-300 rounded w-full p-2" %>
+          <div data-autocomplete-target="list" class="bg-white shadow rounded mt-1 absolute z-10 w-full"></div>
+        </div>
 
-      <div>
-        <%= label_tag :sort, "並び替え", class: "block text-sm font-semibold mb-1" %>
-        <%= select_tag :sort, options_for_select([
-            ['名前（昇順）', 'name_asc'],
-            ['名前（降順）', 'name_desc'],
-            ['作成日（新しい順）', 'created_at_desc'],
-            ['作成日（古い順）', 'created_at_asc'],
-            ['身長（高い順）', 'height_desc'],
-            ['身長（低い順）', 'height_asc'],
-            ['体重（重い順）', 'weight_desc'],
-            ['体重（軽い順）', 'weight_asc'],
-            ['運動能力（高）', 'athletic_ability_desc'],
-            ['運動能力（低）', 'athletic_ability_asc'],
-            ['リーダーシップ（高）', 'leadership_desc'],
-            ['リーダーシップ（低）', 'leadership_asc'],
-            ['協調性（高）', 'cooperation_desc'],
-            ['協調性（低）', 'cooperation_asc'],
-            ['理系（高）', 'science_desc'],
-            ['理系（低）', 'science_asc'],
-            ['文系（高）', 'humanities_desc'],
-            ['文系（低）', 'humanities_asc']
-          ], params[:sort]), class: "border border-gray-300 rounded w-full p-2"
-        %>
-      </div>
-
-      <div>
-        <%= submit_tag "検索", class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded shadow mt-6 md:mt-0" %>
+        <div class="mt-6">
+          <%= submit_tag "検索", class: "bg-blue-500 text-white px-4 py-2 rounded" %>
+        </div>
       </div>
     <% end %>
 
+    <!-- 🔁 並び替えリンク（名前・新旧） -->
+    <div class="mb-4 text-sm text-gray-700">
+      並び替え：
+      <% [
+        ["名前順", "name_asc"],
+        ["新しい順", "created_at_desc"],
+        ["古い順", "created_at_asc"]
+      ].each do |label, sort_key|
+        is_active = params[:sort] == sort_key
+        css = is_active ? "font-bold text-blue-700" : "text-blue-600 hover:underline"
+
+        concat(
+          link_to(label, students_path(params.permit(:q).merge(sort: sort_key, page: nil)), class: "#{css} mr-4")
+        )
+      end %>
+    </div>
+
+    <!-- 📋 テーブル -->
     <div class="overflow-x-auto rounded shadow">
       <table class="min-w-full table-auto bg-white border border-gray-200">
         <thead class="bg-gray-100 text-gray-700 text-sm">
           <tr>
             <th class="px-4 py-2 border">名前</th>
             <th class="px-4 py-2 border">性別</th>
-            <th class="px-4 py-2 border">身長</th>
-            <th class="px-4 py-2 border">体重</th>
-            <th class="px-4 py-2 border">運動能力</th>
-            <th class="px-4 py-2 border">リーダーシップ</th>
-            <th class="px-4 py-2 border">協調性</th>
-            <th class="px-4 py-2 border">理系科目</th>
-            <th class="px-4 py-2 border">文系科目</th>
+            <th class="px-4 py-2 border"><%= sortable("height", "身長") %></th>
+            <th class="px-4 py-2 border"><%= sortable("weight", "体重") %></th>
+            <th class="px-4 py-2 border"><%= sortable("athletic_ability", "運動能力") %></th>
+            <th class="px-4 py-2 border"><%= sortable("leadership", "リーダーシップ") %></th>
+            <th class="px-4 py-2 border"><%= sortable("cooperation", "協調性") %></th>
+            <th class="px-4 py-2 border"><%= sortable("science", "理系科目") %></th>
+            <th class="px-4 py-2 border"><%= sortable("humanities", "文系科目") %></th>
           </tr>
         </thead>
         <tbody class="text-gray-700">
@@ -80,6 +76,7 @@
       </table>
     </div>
 
+    <!-- 📄 ページネーション -->
     <div class="mt-6 flex justify-center">
       <%= paginate @students, params: { q: params[:q], sort: params[:sort] } %>
     </div>
