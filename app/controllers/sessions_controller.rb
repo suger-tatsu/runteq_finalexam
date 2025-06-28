@@ -8,6 +8,7 @@ class SessionsController < ApplicationController
   def create
     teacher = Teacher.find_by(email: params[:session][:email].to_s.downcase)
     if teacher&.authenticate(params[:session][:password])
+      reset_session
       log_in teacher
       if params[:session][:remember_me] == "1"
         remember(teacher)
