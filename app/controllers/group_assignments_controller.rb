@@ -47,6 +47,11 @@ class GroupAssignmentsController < ApplicationController
     @groups = @group_assignment.groups.includes(:students)
   end
 
+  def destroy
+    @group_assignment.destroy
+    redirect_to group_assignments_path, notice: "削除されました！"
+  end
+
   def edit_groups
     @groups = @group_assignment.groups.includes(:students)
   end
