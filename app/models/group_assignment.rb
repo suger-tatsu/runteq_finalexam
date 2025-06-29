@@ -51,6 +51,24 @@ class GroupAssignment < ApplicationRecord
     false
   end
 
+  def update_group_membership!(group_params)
+    transaction do
+      group_assignment_students.delete_all
+
+      group_params.each do |group_id, student_ids|
+        group = groups.find(group_id)
+        clean_ids = student_ids.reject(&:blank?).map(&:to_i)
+
+        clean_ids.each do |student_id|
+          group_assignment_students.create!(
+            group: group,
+            student_id: student_id
+          )
+        end
+      end
+    end
+  end
+
   def assign_students_to_groups
     distribute_students(order: :desc)
   end
