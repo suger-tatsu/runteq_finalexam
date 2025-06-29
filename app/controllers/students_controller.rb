@@ -1,5 +1,5 @@
 class StudentsController < ApplicationController
-  before_action :require_teacher_login
+  before_action :authenticate_teacher!
   before_action :set_student, only: %i[show edit update destroy]
 
   def index
@@ -43,19 +43,9 @@ class StudentsController < ApplicationController
 
   private
 
-  def current_teacher
-    @current_teacher ||= Teacher.find_by(id: session[:teacher_id])
-  end
-
-  def require_teacher_login
-    unless current_teacher
-      flash[:alert] = "ログインしてください"
-      redirect_to login_path
-    end
-  end
-
   def set_student
-    @student = current_teacher.students.find(params[:id])
+    @student = current_teacher.students.find_by(id: params[:id])
+    redirect_to students_path, alert: "生徒が見つかりません" unless @student
   end
 
   def student_params
@@ -65,10 +55,7 @@ class StudentsController < ApplicationController
     ).tap do |whitelisted|
       whitelisted[:height] = whitelisted[:height].to_f
       whitelisted[:weight] = whitelisted[:weight].to_f
-      %i[
-        athletic_ability leadership cooperation
-        science humanities
-      ].each do |attr|
+      %i[athletic_ability leadership cooperation science humanities].each do |attr|
         whitelisted[attr] = whitelisted[attr].to_i
       end
     end
