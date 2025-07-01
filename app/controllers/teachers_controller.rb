@@ -54,7 +54,7 @@ class TeachersController < ApplicationController
   end
 
   def set_current_teacher
-    @current_teacher = Teacher.find_by(session[:teacher_id])
+    @current_teacher = Teacher.find_by(id: session[:teacher_id])
     unless @current_teacher
       redirect_to login_path, alert: "ログインしてください"
     end
