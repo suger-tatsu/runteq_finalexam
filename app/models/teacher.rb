@@ -18,6 +18,10 @@ class Teacher < ApplicationRecord
     SecureRandom.urlsafe_base64
   end
 
+  def oauth_only_account?
+    created_at == updated_at && password_digest.present?
+  end
+
   def remember
     self.remember_token = Teacher.new_token
     update(remember_digest: BCrypt::Password.create(remember_token))
