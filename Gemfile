@@ -70,7 +70,7 @@ gem "foreman"
 gem "ransack", "~> 4.3"
 gem "image_processing", "~> 1.2"
 gem "kaminari"
-gem 'omniauth'
-gem 'omniauth-google-oauth2'
-gem 'dotenv-rails'
-gem 'omniauth-rails_csrf_protection'
+gem "omniauth"
+gem "omniauth-google-oauth2"
+gem "dotenv-rails"
+gem "omniauth-rails_csrf_protection"

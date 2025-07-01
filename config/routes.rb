@@ -54,9 +54,9 @@ Rails.application.routes.draw do
   # 健康チェック（Herokuや監視向け）
   get "up" => "rails/health#show", as: :rails_health_check
 
-  get '/auth/:provider/callback', to: 'sessions#omniauth'
-  get '/auth/failure', to: redirect('/')
-  get '/auth_test', to: redirect('/auth/google_oauth2')
+  get "/auth/:provider/callback", to: "sessions#omniauth"
+  get "/auth/failure", to: redirect("/")
+  get "/auth_test", to: redirect("/auth/google_oauth2")
 
   # PWA機能の有効化時（コメント外す）
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest

@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
   end
 
   def omniauth
-    auth = request.env['omniauth.auth']
+    auth = request.env["omniauth.auth"]
     teacher = Teacher.find_or_initialize_by(email: auth.info.email)
 
     if teacher.new_record?
