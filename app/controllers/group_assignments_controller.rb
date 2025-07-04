@@ -1,3 +1,6 @@
+require "csv"
+require "securerandom"
+
 class GroupAssignmentsController < ApplicationController
   before_action :authenticate_teacher!
   before_action :set_group_assignment, only: [ :show, :edit_groups, :update_groups, :destroy, :share_settings, :update_sharing, :toggle_sharing ]
@@ -85,6 +88,16 @@ class GroupAssignmentsController < ApplicationController
   def toggle_sharing
     @group_assignment.update(public_enabled: !@group_assignment.public_enabled)
     redirect_to group_assignments_path, notice: "共有状態を変更しました"
+  end
+
+  def auto_group_with_ai
+    @group_assignment = current_teacher.group_assignments.find(params[:id])
+
+    if GroupAssignmentAutoGrouper.new(@group_assignment).execute
+    redirect_to @group_assignment, notice: "AIでグループ分けを実行しました"
+    else
+      redirect_to @group_assignment, alert: "AIグループ最適化に失敗しました（ログをご確認ください）"
+    end
   end
 
   private

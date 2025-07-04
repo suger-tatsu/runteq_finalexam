@@ -21,6 +21,9 @@
 
   <div class="mt-6 text-center">
     <%= link_to 'グループ一覧に戻る', group_assignments_path, class: "bg-green-500 text-white px-4 py-2 rounded" %>
+    <%= button_to "🤖 AIでグループ自動編成", auto_group_with_ai_group_assignment_path(@group_assignment),
+              method: :patch, data: { turbo_confirm: "本当にAIでグループ分けを上書きしますか？" },
+              class: "btn btn-primary" %>
     <%= link_to "共有設定", share_settings_group_assignment_path(@group_assignment), class: "bg-green-500 text-white px-4 py-2 rounded" %>
 
   </div>

@@ -42,6 +42,7 @@ Rails.application.routes.draw do
       get :share_settings
       patch :update_sharing
       patch :toggle_sharing
+      patch :auto_group_with_ai
     end
   end
 
