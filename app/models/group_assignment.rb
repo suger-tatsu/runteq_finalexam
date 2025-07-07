@@ -94,7 +94,7 @@ class GroupAssignment < ApplicationRecord
   def set_defaults
     self.ability_selection ||= []
     self.ability_weights ||= {}
-    self.public_enabled = false if public_enabled.nil?  # ← ここを追加
+    self.public_enabled = false if public_enabled.nil?
   end
 
   def distribute_students(order:, zigzag: false)

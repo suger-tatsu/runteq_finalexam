@@ -1,2 +1,0 @@
-class StudentSkillsController < ApplicationController
-end
