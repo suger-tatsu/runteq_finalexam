@@ -11,27 +11,6 @@
       </div>
     <% end %>
 
-    <div class="mb-4" data-controller="filter">
-      <p class="font-bold mb-2">特技を基準にばらけさせる（1つだけ）</p>
-
-      <%= label_tag :skill_search, "特技検索", class: "block font-bold mb-1" %>
-      <%= text_field_tag :skill_search, nil,
-            class: "border rounded w-full p-2 mb-2",
-            data: { filter_target: "input", action: "input->filter#search" } %>
-
-      <label class="block" data-filter-target="item">
-        <%= radio_button_tag "group_assignment[skill_ids][]", "", group_assignment.skill_ids.blank?, class: 'mr-2' %>
-        なし（特技を考慮しない）
-      </label>
-
-      <% @skills.each do |skill| %>
-        <label class="block" data-filter-target="item">
-          <%= radio_button_tag "group_assignment[skill_ids][]", skill.id, group_assignment.skill_ids&.include?(skill.id), class: 'mr-2' %>
-          <%= skill.name %>
-        </label>
-      <% end %>
-    </div>
-
     <div class="mb-4">
       <%= form.label :title, 'グループ分けタイトル', class: 'block font-bold mb-1' %>
       <%= form.text_field :title, class: 'border rounded w-full p-2' %>
@@ -96,6 +75,27 @@
       </div>
     <% end %>
   </div>
+
+  <div class="mb-4" data-controller="filter">
+      <p class="font-bold mb-2">特技を基準にばらけさせる（1つだけ）</p>
+
+      <%= label_tag :skill_search, "特技検索", class: "block font-bold mb-1" %>
+      <%= text_field_tag :skill_search, nil,
+            class: "border rounded w-full p-2 mb-2",
+            data: { filter_target: "input", action: "input->filter#search" } %>
+
+      <label class="block" data-filter-target="item">
+        <%= radio_button_tag "group_assignment[skill_ids][]", "", group_assignment.skill_ids.blank?, class: 'mr-2' %>
+        なし（特技を考慮しない）
+      </label>
+
+      <% @skills.each do |skill| %>
+        <label class="block" data-filter-target="item">
+          <%= radio_button_tag "group_assignment[skill_ids][]", skill.id, group_assignment.skill_ids&.include?(skill.id), class: 'mr-2' %>
+          <%= skill.name %>
+        </label>
+      <% end %>
+    </div>
 
     <%= form.submit group_assignment.new_record? ? '作成' : '更新',
           class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded' %>

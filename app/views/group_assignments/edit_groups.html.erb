@@ -9,7 +9,7 @@
 
           <%= hidden_field_tag "groups[#{group.id}][]", nil %>
 
-          <% Student.where(id: @groups.map(&:student_ids).flatten.uniq).each do |student| %>
+          <% current_teacher.students.each do |student| %>
             <label class="block">
               <%= check_box_tag "groups[#{group.id}][]",
                                 student.id,

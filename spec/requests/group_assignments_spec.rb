@@ -6,7 +6,6 @@ RSpec.describe "GroupAssignments", type: :request do
   let(:student2) { create(:student, teacher: teacher) }
 
   before do
-    # ログイン処理（セッションにteacher_idをセット）
     post login_path, params: { session: { email: teacher.email, password: "password" } }
   end
 
