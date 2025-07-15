@@ -1,59 +1,61 @@
-<%= render 'shared/header' %>
 <div class="flex">
-  <%= render 'shared/sidebar' %>
-  <main class="flex-1 p-4">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">特技一覧</h1>
+  <main class="flex-1 p-6 bg-gray-50 min-h-screen">
+    <section class="bg-white p-6 rounded shadow">
+      <h1 class="text-3xl font-bold text-gray-800 mb-6">特技一覧</h1>
 
-    <%= link_to '特技を追加する', new_skill_path, class: 'inline-block bg-green-500 hover:bg-green-600 text-white rounded px-4 py-2 mb-6 shadow' %>
+      <%= link_to '特技を追加する', new_skill_path, class: 'inline-block bg-green-500 hover:bg-green-600 text-white rounded px-4 py-2 mb-6 shadow' %>
 
-    <%= form_with url: skills_path, method: :get, local: true, data: { controller: "autocomplete", autocomplete_url_value: autocomplete_skills_path } do %>
-      <div class="flex gap-2 items-start">
-        <div class="flex-1">
-          <%= label_tag :q, "特技名検索", class: "block text-gray-700 font-semibold mb-1" %>
-          <%= text_field_tag :q, params[:q], data: { autocomplete_target: "input", action: "input->autocomplete#search" }, class: "border border-gray-300 rounded w-full p-2" %>
-          <div data-autocomplete-target="list" class="bg-white shadow rounded mt-1 absolute z-10 w-full"></div>
+      <%= form_with url: skills_path, method: :get, local: true, data: { controller: "autocomplete", autocomplete_url_value: autocomplete_skills_path } do %>
+        <div class="flex gap-2 items-start">
+          <div class="flex-1">
+            <%= label_tag :q, "特技名検索", class: "block text-gray-700 font-semibold mb-1" %>
+            <%= text_field_tag :q, params[:q], data: { autocomplete_target: "input", action: "input->autocomplete#search" }, class: "border border-gray-300 rounded w-full p-2" %>
+            <div data-autocomplete-target="list" class="bg-white shadow rounded mt-1 absolute z-10 w-full"></div>
+          </div>
+
+          <div class="mt-6">
+            <%= submit_tag "検索", class: "bg-blue-500 text-white px-4 py-2 rounded" %>
+          </div>
         </div>
+      <% end %>
 
-        <div class="mt-6">
-          <%= submit_tag "検索", class: "bg-blue-500 text-white px-4 py-2 rounded" %>
-        </div>
+      <div class="my-4 text-sm">
+        <span class="font-bold mr-2">並び替え:</span>
+        <%= link_to '名前順', skills_path(q: params[:q], sort: 'name'), class: "text-blue-500 hover:underline mr-2" %>
+        <%= link_to '新しい順', skills_path(q: params[:q], sort: 'created_at_desc'), class: "text-blue-500 hover:underline mr-2" %>
+        <%= link_to '古い順', skills_path(q: params[:q], sort: 'created_at_asc'), class: "text-blue-500 hover:underline" %>
       </div>
-    <% end %>
 
-    <div class="my-4">
-      <span class="font-bold mr-2">並び替え:</span>
-      <%= link_to '名前順', skills_path(q: params[:q], sort: 'name'), class: "text-blue-500 hover:underline mr-2" %>
-      <%= link_to '新しい順', skills_path(q: params[:q], sort: 'created_at_desc'), class: "text-blue-500 hover:underline mr-2" %>
-      <%= link_to '古い順', skills_path(q: params[:q], sort: 'created_at_asc'), class: "text-blue-500 hover:underline" %>
-    </div>
+      <div class="overflow-x-auto rounded shadow">
+        <table class="min-w-full bg-white border border-gray-300">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="px-4 py-2 border text-left">特技名（クリックで編集）</th>
+              <th class="px-4 py-2 border text-center">アクション</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @skills.each do |skill| %>
+              <tr class="hover:bg-gray-50">
+                <td class="border px-4 py-2 text-left">
+                  <%= link_to skill.name, edit_skill_path(skill), class: 'text-blue-500 hover:underline' %>
+                </td>
+                <td class="border px-4 py-2 text-center">
+                  <%= button_to '削除',
+                        skill_path(skill),
+                        method: :delete,
+                        class: 'text-red-500 hover:underline',
+                        data: { controller: 'confirm', action: 'confirm#confirm' } %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
 
-    <table class="min-w-full bg-white border border-gray-300">
-      <thead>
-        <tr>
-          <th class="px-4 py-2 border">特技名（クリックで編集）</th>
-          <th class="px-4 py-2 border">アクション</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @skills.each do |skill| %>
-          <tr>
-            <td class="border px-4 py-2">
-              <%= link_to skill.name, edit_skill_path(skill), class: 'text-blue-500' %>
-            </td>
-            <td class="border px-4 py-2">
-              <%= button_to '削除',
-                    skill_path(skill),
-                    method: :delete,
-                    class: 'text-red-500',
-                    data: { controller: 'confirm', action: 'confirm#confirm' } %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-
-    <div class="mt-4">
-      <%= paginate @skills %>
-    </div>
+      <div class="mt-6 flex justify-center">
+        <%= paginate @skills %>
+      </div>
+    </section>
   </main>
 </div>

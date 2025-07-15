@@ -97,6 +97,7 @@ class GroupAssignmentsController < ApplicationController
   def group_assignment_params
     params.require(:group_assignment).permit(
       :title, :group_count, :strategy,
+      :public_enabled, :public_password,
       student_ids: [],
       ability_selection: [],
       skill_ids: [],

@@ -1,23 +1,37 @@
-<h1>共有設定</h1>
+<h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">共有設定</h1>
 
-<%= form_with model: @group_assignment, url: update_sharing_group_assignment_path(@group_assignment), local: true do |form| %>
-  <div class="mb-4">
-    <% if @group_assignment.public_token.present? %>
-      <p>現在の共有URL:</p>
-      <input type="text" readonly class="border p-2 w-full" value="<%= public_group_assignment_url(token: @group_assignment.public_token) %>">
-    <% else %>
-      <p>共有URLは未発行です。保存すると発行されます。</p>
-    <% end %>
+<div class="max-w-2xl mx-auto bg-white p-6 rounded shadow">
+  <%= form_with model: @group_assignment, url: update_sharing_group_assignment_path(@group_assignment), local: true do |form| %>
+
+    <div class="mb-6">
+      <% if @group_assignment.public_token.present? %>
+        <label class="block mb-2 font-semibold text-gray-700">現在の共有URL:</label>
+        <input type="text" readonly class="w-full border border-gray-300 rounded p-3 bg-gray-100 text-gray-700" value="<%= public_group_assignment_url(token: @group_assignment.public_token) %>">
+      <% else %>
+        <p class="text-gray-600">共有URLは未発行です。保存すると発行されます。</p>
+      <% end %>
+    </div>
+
+    <div class="mb-6">
+      <%= form.label :public_enabled, "このグループ分けを公開する", class: "block mb-2 font-semibold text-gray-700" %>
+      <div class="flex items-center space-x-2">
+        <%= form.hidden_field :public_enabled, value: false %>
+        <%= form.check_box :public_enabled, { class: "h-5 w-5 text-blue-500" }, true, false %>
+        <span class="text-sm text-gray-600">チェックすると公開されます</span>
+      </div>
+    </div>
+
+    <div class="mb-6">
+      <%= form.label :public_password, "パスワード（任意）", class: "block mb-2 font-semibold text-gray-700" %>
+      <%= form.password_field :public_password, class: "w-full border border-gray-300 rounded p-3" %>
+    </div>
+
+    <div class="flex justify-center">
+      <%= form.submit "共有設定を保存", class: "bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded shadow" %>
+    </div>
+  <% end %>
+
+  <div class="mt-6 text-center">
+    <%= link_to "戻る", group_assignment_path(@group_assignment), class: "text-blue-500 hover:underline" %>
   </div>
-
-  <div class="mb-4">
-    <%= form.label :public_password, "パスワード (任意)" %>
-    <%= form.password_field :public_password, class: "border p-2 w-full" %>
-  </div>
-
-  <div class="mb-4">
-    <%= form.submit "共有設定を保存", class: "bg-blue-500 text-white px-4 py-2 rounded" %>
-  </div>
-<% end %>
-
-<%= link_to "戻る", group_assignment_path(@group_assignment), class: "text-blue-500" %>
+</div>
