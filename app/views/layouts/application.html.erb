@@ -26,26 +26,22 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body class="bg-gray-100 min-h-screen flex flex-col">
+  <body class="bg-gray-100 min-h-screen flex flex-col" data-controller="sidebar">
   <% if @current_teacher %>
-    <!-- ヘッダー -->
     <header>
       <%= render 'shared/header' %>
     </header>
 
     <div class="flex flex-1 min-h-0">
-      <!-- サイドバー -->
       <aside class="hidden md:block w-64 bg-white shadow h-full">
         <%= render 'shared/sidebar' %>
       </aside>
 
-      <!-- モバイル用サイドバー -->
       <div data-sidebar-target="menu"
            class="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow transform -translate-x-full transition-transform md:hidden">
         <%= render 'shared/sidebar' %>
       </div>
 
-      <!-- メイン -->
       <main class="flex-1 overflow-y-auto p-6">
         <% flash.each do |type, message| %>
           <% color = case type.to_sym
@@ -62,7 +58,6 @@
       </main>
     </div>
   <% else %>
-    <!-- 未ログイン時 -->
     <main class="flex-1 p-6">
       <% flash.each do |type, message| %>
         <% color = case type.to_sym
