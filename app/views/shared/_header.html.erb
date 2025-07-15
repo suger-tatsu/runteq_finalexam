@@ -1,10 +1,13 @@
-<div class="flex items-center justify-between bg-blue-600 text-white px-4 py-3" data-controller="dropdown">
-  <!-- ロゴやタイトル -->
+<div class="h-16 flex items-center justify-between bg-blue-600 text-white px-4 py-3" data-controller="dropdown">
+  <button
+      class="md:hidden mr-4 text-white focus:outline-none"
+      data-action="click->dropdown#toggleMenu"
+    >
+      ☰
+    </button>
   <div class="text-lg font-bold">生徒グループ分けアプリ</div>
 
-  <!-- 教師アイコンとドロップダウン -->
   <div class="relative flex items-center">
-    <!-- 教師アイコン（青丸） -->
     <button data-action="click->dropdown#toggle" class="focus:outline-none flex items-center">
       <% if @current_teacher&.icon&.attached? %>
         <%= image_tag @current_teacher.icon.variant(resize_to_limit: [40, 40]), class: "w-10 h-10 rounded-full" %>
@@ -14,8 +17,6 @@
         </div>
       <% end %>
     </button>
-
-    <!-- ドロップダウン：アイコンの**左・下方向**に展開 -->
     <div data-dropdown-target="menu"
          class="absolute right-0 top-full mt-2 w-48 bg-white text-black border rounded shadow hidden z-50">
       <ul>

@@ -26,17 +26,57 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body>
-    <% flash.each do |type, message| %>
-      <% color = case type.to_sym
-        when :notice then 'bg-green-100 text-green-800 border-green-300'
-        when :alert  then 'bg-red-100 text-red-800 border-red-300'
-        else 'bg-gray-100 text-gray-800 border-gray-300'
-      end %>
-      <div class="mb-4 border-l-4 p-4 rounded #{color}">
-        <p><%= message %></p>
+  <body class="bg-gray-100 min-h-screen flex flex-col">
+  <% if @current_teacher %>
+    <!-- ヘッダー -->
+    <header>
+      <%= render 'shared/header' %>
+    </header>
+
+    <div class="flex flex-1 min-h-0">
+      <!-- サイドバー -->
+      <aside class="hidden md:block w-64 bg-white shadow h-full">
+        <%= render 'shared/sidebar' %>
+      </aside>
+
+      <!-- モバイル用サイドバー -->
+      <div data-sidebar-target="menu"
+           class="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow transform -translate-x-full transition-transform md:hidden">
+        <%= render 'shared/sidebar' %>
       </div>
-    <% end %>
-    <%= yield %>
-  </body>
+
+      <!-- メイン -->
+      <main class="flex-1 overflow-y-auto p-6">
+        <% flash.each do |type, message| %>
+          <% color = case type.to_sym
+            when :notice then 'bg-green-100 text-green-800 border-green-300'
+            when :alert  then 'bg-red-100 text-red-800 border-red-300'
+            else 'bg-gray-100 text-gray-800 border-gray-300'
+          end %>
+          <div class="mb-4 border-l-4 p-4 rounded #{color}">
+            <p><%= message %></p>
+          </div>
+        <% end %>
+
+        <%= yield %>
+      </main>
+    </div>
+  <% else %>
+    <!-- 未ログイン時 -->
+    <main class="flex-1 p-6">
+      <% flash.each do |type, message| %>
+        <% color = case type.to_sym
+          when :notice then 'bg-green-100 text-green-800 border-green-300'
+          when :alert  then 'bg-red-100 text-red-800 border-red-300'
+          else 'bg-gray-100 text-gray-800 border-gray-300'
+        end %>
+        <div class="mb-4 border-l-4 p-4 rounded #{color}">
+          <p><%= message %></p>
+        </div>
+      <% end %>
+
+      <%= yield %>
+    </main>
+  <% end %>
+</body>
 </html>

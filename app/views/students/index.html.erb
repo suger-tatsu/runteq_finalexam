@@ -1,84 +1,78 @@
-<%= render 'shared/header' %>
-
 <div class="flex">
-  <%= render 'shared/sidebar' %>
-
   <main class="flex-1 p-6 bg-gray-50 min-h-screen">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">生徒一覧</h1>
+    <section class="bg-white p-6 rounded shadow">
+      <h1 class="text-3xl font-bold text-gray-800 mb-6">生徒一覧</h1>
 
-    <%= link_to '生徒を作成する', new_student_path, class: 'inline-block bg-green-500 hover:bg-green-600 text-white rounded px-4 py-2 mb-6 shadow' %>
+      <%= link_to '生徒を作成する', new_student_path, class: 'inline-block bg-green-500 hover:bg-green-600 text-white rounded px-4 py-2 mb-6 shadow' %>
 
-    <!-- 🔍 検索フォーム -->
-    <%= form_with url: students_path, method: :get, local: true, data: { controller: "autocomplete", autocomplete_url_value: autocomplete_students_path } do %>
-      <div class="flex gap-2 items-start">
-        <div class="flex-1">
-          <%= label_tag :q, "名前検索", class: "block text-gray-700 font-semibold mb-1" %>
-          <%= text_field_tag :q, params[:q], data: { autocomplete_target: "input", action: "input->autocomplete#search" }, class: "border border-gray-300 rounded w-full p-2" %>
-          <div data-autocomplete-target="list" class="bg-white shadow rounded mt-1 absolute z-10 w-full"></div>
+      <!-- 🔍 検索フォーム -->
+      <%= form_with url: students_path, method: :get, local: true, data: { controller: "autocomplete", autocomplete_url_value: autocomplete_students_path } do %>
+        <div class="flex gap-2 items-start">
+          <div class="flex-1">
+            <%= label_tag :q, "名前検索", class: "block text-gray-700 font-semibold mb-1" %>
+            <%= text_field_tag :q, params[:q], data: { autocomplete_target: "input", action: "input->autocomplete#search" }, class: "border border-gray-300 rounded w-full p-2" %>
+            <div data-autocomplete-target="list" class="bg-white shadow rounded mt-1 absolute z-10 w-full"></div>
+          </div>
+
+          <div class="mt-6">
+            <%= submit_tag "検索", class: "bg-blue-500 text-white px-4 py-2 rounded" %>
+          </div>
         </div>
+      <% end %>
 
-        <div class="mt-6">
-          <%= submit_tag "検索", class: "bg-blue-500 text-white px-4 py-2 rounded" %>
-        </div>
+      <!-- 🔁 並び替えリンク -->
+      <div class="mb-4 text-sm text-gray-700">
+        並び替え：
+        <% [
+          ["名前順", "name_asc"],
+          ["新しい順", "created_at_desc"],
+          ["古い順", "created_at_asc"]
+        ].each do |label, sort_key| %>
+          <% is_active = params[:sort] == sort_key %>
+          <% css = is_active ? "font-bold text-blue-700" : "text-blue-600 hover:underline" %>
+          <%= link_to label, students_path(params.permit(:q).merge(sort: sort_key, page: nil)), class: "#{css} mr-4" %>
+        <% end %>
       </div>
-    <% end %>
 
-    <!-- 🔁 並び替えリンク（名前・新旧） -->
-    <div class="mb-4 text-sm text-gray-700">
-      並び替え：
-      <% [
-        ["名前順", "name_asc"],
-        ["新しい順", "created_at_desc"],
-        ["古い順", "created_at_asc"]
-      ].each do |label, sort_key|
-        is_active = params[:sort] == sort_key
-        css = is_active ? "font-bold text-blue-700" : "text-blue-600 hover:underline"
-
-        concat(
-          link_to(label, students_path(params.permit(:q).merge(sort: sort_key, page: nil)), class: "#{css} mr-4")
-        )
-      end %>
-    </div>
-
-    <!-- 📋 テーブル -->
-    <div class="overflow-x-auto rounded shadow">
-      <table class="min-w-full table-auto bg-white border border-gray-200">
-        <thead class="bg-gray-100 text-gray-700 text-sm">
-          <tr>
-            <th class="px-4 py-2 border">名前</th>
-            <th class="px-4 py-2 border">性別</th>
-            <th class="px-4 py-2 border"><%= sortable("height", "身長") %></th>
-            <th class="px-4 py-2 border"><%= sortable("weight", "体重") %></th>
-            <th class="px-4 py-2 border"><%= sortable("athletic_ability", "運動能力") %></th>
-            <th class="px-4 py-2 border"><%= sortable("leadership", "リーダーシップ") %></th>
-            <th class="px-4 py-2 border"><%= sortable("cooperation", "協調性") %></th>
-            <th class="px-4 py-2 border"><%= sortable("science", "理系科目") %></th>
-            <th class="px-4 py-2 border"><%= sortable("humanities", "文系科目") %></th>
-          </tr>
-        </thead>
-        <tbody class="text-gray-700">
-          <% @students.each do |student| %>
-            <tr class="hover:bg-gray-50">
-              <td class="border px-4 py-2">
-                <%= link_to student.name, student_path(student), class: 'text-blue-600 hover:underline' %>
-              </td>
-              <td class="border px-4 py-2"><%= student.gender %></td>
-              <td class="border px-4 py-2"><%= student.height %></td>
-              <td class="border px-4 py-2"><%= student.weight %></td>
-              <td class="border px-4 py-2"><%= student.athletic_ability %></td>
-              <td class="border px-4 py-2"><%= student.leadership %></td>
-              <td class="border px-4 py-2"><%= student.cooperation %></td>
-              <td class="border px-4 py-2"><%= student.science %></td>
-              <td class="border px-4 py-2"><%= student.humanities %></td>
+      <!-- 📋 テーブル -->
+      <div class="overflow-x-auto rounded shadow">
+        <table class="min-w-full table-auto bg-white border border-gray-200">
+          <thead class="bg-gray-100 text-gray-700 text-sm">
+            <tr>
+              <th class="px-4 py-2 border">名前</th>
+              <th class="px-4 py-2 border">性別</th>
+              <th class="px-4 py-2 border"><%= sortable("height", "身長") %></th>
+              <th class="px-4 py-2 border"><%= sortable("weight", "体重") %></th>
+              <th class="px-4 py-2 border"><%= sortable("athletic_ability", "運動能力") %></th>
+              <th class="px-4 py-2 border"><%= sortable("leadership", "リーダーシップ") %></th>
+              <th class="px-4 py-2 border"><%= sortable("cooperation", "協調性") %></th>
+              <th class="px-4 py-2 border"><%= sortable("science", "理系科目") %></th>
+              <th class="px-4 py-2 border"><%= sortable("humanities", "文系科目") %></th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody class="text-gray-700">
+            <% @students.each do |student| %>
+              <tr class="hover:bg-gray-50">
+                <td class="border px-4 py-2">
+                  <%= link_to student.name, student_path(student), class: 'text-blue-600 hover:underline' %>
+                </td>
+                <td class="border px-4 py-2"><%= student.gender %></td>
+                <td class="border px-4 py-2"><%= student.height %></td>
+                <td class="border px-4 py-2"><%= student.weight %></td>
+                <td class="border px-4 py-2"><%= student.athletic_ability %></td>
+                <td class="border px-4 py-2"><%= student.leadership %></td>
+                <td class="border px-4 py-2"><%= student.cooperation %></td>
+                <td class="border px-4 py-2"><%= student.science %></td>
+                <td class="border px-4 py-2"><%= student.humanities %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
 
-    <!-- 📄 ページネーション -->
-    <div class="mt-6 flex justify-center">
-      <%= paginate @students, params: { q: params[:q], sort: params[:sort] } %>
-    </div>
+      <div class="mt-6 flex justify-center">
+        <%= paginate @students, params: { q: params[:q], sort: params[:sort] } %>
+      </div>
+    </section>
   </main>
 </div>

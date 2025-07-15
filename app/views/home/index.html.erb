@@ -1,35 +1,19 @@
-<head>
-  <style>
-    .button {
-      display: inline-block;
-      padding: 15px 30px; 
-      background-color: #007bff;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      font-size: 18px; 
-    }
-    .button:hover {
-      background-color: #0056b3;
-    }
-    h1 {
-      text-align: center;
-      margin-top: 100px; 
-      font-size: 36px; 
-    }
-  </style>
-</head>
-<h1 style="text-align: center;">ようこそ！</h1>
-<div style="display: flex; justify-content: center; margin-top: 20px;">
-  <p style="margin-right: 20px;">
-    <%= link_to 'ログインの方はこちら', login_path, class: 'button' %>
-  </p>
-  <p>
-    <%= link_to '新規登録はこちら', register_path, class: 'button' %>
-  </p>
-</div>
-  <div class="mt-8 text-sm text-center text-gray-600">
-    <%= link_to '利用規約', static_terms_path %> |
-    <%= link_to 'プライバシーポリシー', static_privacy_path %> |
-    <%= link_to '使い方ガイド', static_guide_path %>
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-white flex flex-col items-center justify-center px-4">
+  <h1 class="text-4xl font-bold text-gray-800 mb-8">ようこそ！</h1>
+
+  <div class="flex flex-wrap justify-center gap-4 mb-8">
+    <%= link_to login_path, class: 'bg-blue-500 text-white px-6 py-3 rounded shadow hover:bg-blue-600 transition' do %>
+      ログインの方はこちら
+    <% end %>
+
+    <%= link_to register_path, class: 'bg-green-500 text-white px-6 py-3 rounded shadow hover:bg-green-600 transition' do %>
+      新規登録はこちら
+    <% end %>
   </div>
+
+  <div class="text-sm text-gray-600">
+    <%= link_to '利用規約', static_terms_path, class: "hover:underline" %> |
+    <%= link_to 'プライバシーポリシー', static_privacy_path, class: "hover:underline" %> |
+    <%= link_to '使い方ガイド', static_guide_path, class: "hover:underline" %>
+  </div>
+</div>
