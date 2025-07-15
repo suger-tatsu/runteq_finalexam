@@ -5,8 +5,8 @@ class GroupAssignment < ApplicationRecord
   has_many :students, through: :group_assignment_students
 
   validates :title, presence: true
-  validate :strategy_presence
-  validate :ability_selection_presence
+  validate :strategy_presence, on: :create
+  validate :ability_selection_presence, on: :create
 
   attr_accessor :strategy, :selected_student_ids, :skill_ids, :ability_weights
 

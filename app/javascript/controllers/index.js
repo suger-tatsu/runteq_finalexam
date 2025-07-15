@@ -24,3 +24,6 @@ application.register("hello", HelloController)
 
 import SelectAllController from "./select_all_controller"
 application.register("select-all", SelectAllController)
+
+import SidebarController from "./sidebar_controller"
+application.register("sidebar", SidebarController)
