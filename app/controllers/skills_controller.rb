@@ -15,7 +15,7 @@ class SkillsController < ApplicationController
       @skills = @skills.order(created_at: :asc)
     end
 
-    @skills = @skills.page(params[:page])
+    @skills = @skills.page(params[:page]).per(12)
   end
 
   def autocomplete

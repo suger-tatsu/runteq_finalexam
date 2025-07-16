@@ -15,7 +15,7 @@ class GroupAssignmentsController < ApplicationController
       @group_assignments = @group_assignments.order(created_at: :asc)
     end
 
-    @group_assignments = @group_assignments.page(params[:page])
+    @group_assignments = @group_assignments.page(params[:page]).per(12)
   end
 
   def autocomplete
