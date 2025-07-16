@@ -5,22 +5,20 @@
 
       <%= link_to '生徒を作成する', new_student_path, class: 'inline-block bg-green-500 hover:bg-green-600 text-white rounded px-4 py-2 mb-6 shadow' %>
 
-      <!-- 🔍 検索フォーム -->
       <%= form_with url: students_path, method: :get, local: true, data: { controller: "autocomplete", autocomplete_url_value: autocomplete_students_path } do %>
-        <div class="flex gap-2 items-start">
-          <div class="flex-1">
+        <div class="flex gap-2 items-start flex-col sm:flex-row">
+          <div class="flex-1 w-full sm:w-auto">
             <%= label_tag :q, "名前検索", class: "block text-gray-700 font-semibold mb-1" %>
             <%= text_field_tag :q, params[:q], data: { autocomplete_target: "input", action: "input->autocomplete#search" }, class: "border border-gray-300 rounded w-full p-2" %>
             <div data-autocomplete-target="list" class="bg-white shadow rounded mt-1 absolute z-10 w-full"></div>
           </div>
 
-          <div class="mt-6">
+          <div class="mt-2 sm:mt-6">
             <%= submit_tag "検索", class: "bg-blue-500 text-white px-4 py-2 rounded" %>
           </div>
         </div>
       <% end %>
 
-      <!-- 🔁 並び替えリンク -->
       <div class="mb-4 text-sm text-gray-700">
         並び替え：
         <% [
@@ -34,8 +32,17 @@
         <% end %>
       </div>
 
-      <!-- 📋 テーブル -->
-      <div class="overflow-x-auto rounded shadow">
+      <div class="sm:hidden">
+        <% @students.each do |student| %>
+          <div class="bg-white border rounded shadow mb-4 p-4">
+            <div class="font-bold text-lg"><%= student.name %></div>
+            <div class="text-sm text-gray-600">性別: <%= student.gender %></div>
+            <%= link_to "詳細を見る", student_path(student), class: "text-blue-500 hover:underline text-sm mt-2 inline-block" %>
+          </div>
+        <% end %>
+      </div>
+      
+      <div class="hidden sm:block overflow-x-auto rounded shadow">
         <table class="min-w-full table-auto bg-white border border-gray-200">
           <thead class="bg-gray-100 text-gray-700 text-sm">
             <tr>
