@@ -6,7 +6,7 @@
       <%= link_to 'グループ分けを追加する', new_group_assignment_path, class: 'inline-block bg-green-500 hover:bg-green-600 text-white rounded px-4 py-2 mb-6 shadow' %>
 
       <%= form_with url: group_assignments_path, method: :get, local: true, data: { controller: "autocomplete", autocomplete_url_value: autocomplete_group_assignments_path } do %>
-        <div class="flex gap-2 items-start">
+        <div class="flex gap-2 items-start mb-6">
           <div class="flex-1">
             <%= label_tag :q, "グループ分けタイトル検索", class: "block text-gray-700 font-semibold mb-1" %>
             <%= text_field_tag :q, params[:q], data: { autocomplete_target: "input", action: "input->autocomplete#search" }, class: "border border-gray-300 rounded w-full p-2" %>
@@ -18,61 +18,43 @@
         </div>
       <% end %>
 
-      <div class="my-4 text-sm">
-        <span class="font-bold mr-2">並び替え:</span>
+      <div class="my-4 text-sm text-gray-700">
+        並び替え：
         <%= link_to '名前順', group_assignments_path(q: params[:q], sort: 'title'), class: "text-blue-500 hover:underline mr-2" %>
         <%= link_to '新しい順', group_assignments_path(q: params[:q], sort: 'created_at_desc'), class: "text-blue-500 hover:underline mr-2" %>
         <%= link_to '古い順', group_assignments_path(q: params[:q], sort: 'created_at_asc'), class: "text-blue-500 hover:underline" %>
       </div>
 
-      <div class="overflow-x-auto rounded shadow">
-        <table class="min-w-full bg-white border border-gray-300">
-          <thead class="bg-gray-100">
-            <tr>
-              <th class="px-4 py-2 border text-left">グループ分けタイトル</th>
-              <th class="px-4 py-2 border text-center">共有状況</th>
-              <th class="px-4 py-2 border text-center">アクション</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @group_assignments.each do |group| %>
-              <tr class="hover:bg-gray-50">
-                <td class="border px-4 py-2 text-left">
-                  <%= link_to group.title, group_assignment_path(group), class: 'text-blue-500 hover:underline' %>
-                </td>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <% @group_assignments.each do |group| %>
+          <div class="p-4 bg-white shadow rounded">
+            <h2 class="text-xl font-semibold text-gray-800">
+              <%= link_to group.title, group_assignment_path(group), class: 'hover:underline' %>
+            </h2>
 
-                <td class="border px-4 py-2 text-center">
-                  <% if group.public_token.blank? %>
-                    <span class="text-gray-400">未発行</span>
-                  <% elsif group.public_enabled %>
-                    <span class="text-green-600 font-semibold">公開中</span>
-                  <% else %>
-                    <span class="text-gray-400">非公開</span>
-                  <% end %>
-                </td>
+            <p class="text-sm mt-2 text-gray-600">
+              共有状況：
+              <% if group.public_token.blank? %>
+                <span class="text-gray-400">未発行</span>
+              <% elsif group.public_enabled %>
+                <span class="text-green-600 font-semibold">公開中</span>
+              <% else %>
+                <span class="text-gray-400">非公開</span>
+              <% end %>
+            </p>
 
-                <td class="border px-4 py-2 text-center">
-                  <div class="flex justify-center gap-4">
-                    <%= link_to '編集', edit_groups_group_assignment_path(group), class: 'text-blue-500 hover:underline' %>
-
-                    <%= button_to '削除',
-                          group_assignment_path(group),
-                          method: :delete,
-                          class: 'text-red-500',
-                          data: { controller: 'confirm', action: 'confirm#confirm' } %>
-
-                    <% if group.public_token.present? %>
-                      <%= button_to (group.public_enabled ? '非公開にする' : '公開にする'),
-                          toggle_sharing_group_assignment_path(group),
-                          method: :patch,
-                          class: 'text-purple-500 hover:underline' %>
-                    <% end %>
-                  </div>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
+            <div class="mt-4 flex justify-end gap-4 flex-wrap text-sm">
+              <%= link_to '編集', edit_groups_group_assignment_path(group), class: 'text-blue-500 hover:underline' %>
+              <%= button_to '削除', group_assignment_path(group), method: :delete, class: 'text-red-500 hover:underline', data: { controller: 'confirm', action: 'confirm#confirm' } %>
+              <% if group.public_token.present? %>
+                <%= button_to (group.public_enabled ? '非公開にする' : '公開にする'),
+                      toggle_sharing_group_assignment_path(group),
+                      method: :patch,
+                      class: 'text-purple-500 hover:underline' %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
       </div>
 
       <div class="mt-6 flex justify-center">
