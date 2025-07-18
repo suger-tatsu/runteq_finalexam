@@ -29,4 +29,14 @@ class Student < ApplicationRecord
       science humanities created_at updated_at
     ]
   end
+
+  private
+
+  def normalize_numerical_fields
+    self.height = height.to_f if height.present?
+    self.weight = weight.to_f if weight.present?
+    %i[athletic_ability leadership cooperation science humanities].each do |attr|
+      self[attr] = self[attr].to_i if self[attr].present?
+    end
+  end
 end

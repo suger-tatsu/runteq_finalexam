@@ -52,12 +52,6 @@ class StudentsController < ApplicationController
     params.require(:student).permit(
       :name, :gender, :height, :weight,
       :athletic_ability, :leadership, :cooperation, :science, :humanities
-    ).tap do |whitelisted|
-      whitelisted[:height] = whitelisted[:height].to_f
-      whitelisted[:weight] = whitelisted[:weight].to_f
-      %i[athletic_ability leadership cooperation science humanities].each do |attr|
-        whitelisted[attr] = whitelisted[attr].to_i
-      end
-    end
+    )
   end
 end
