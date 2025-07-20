@@ -1,5 +1,5 @@
 <h1 class="text-2xl font-bold mb-6 text-center">
-  <%= @skill.new_record? ? '特技を追加' : '特技を編集' %>
+  <%= @form.skill.new_record? ? '特技を追加' : '特技を編集' %>
 </h1>
 
-<%= render 'form', skill: @skill, students: @students %>
+<%= render 'form', form: @form %>
