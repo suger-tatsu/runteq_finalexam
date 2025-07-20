@@ -28,7 +28,7 @@ class StudentForm
   def initialize(attributes = {}, student: nil, teacher:)
     @student = student || Student.new
     @teacher = teacher
-    
+
     permitted_attributes = %i[
       name gender height weight
       athletic_ability leadership cooperation
