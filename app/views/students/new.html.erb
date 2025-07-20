@@ -1,5 +1,5 @@
 <h1 class="text-2xl font-bold mb-6 text-center">
-  <%= @student.new_record? ? '生徒作成' : '生徒編集' %>
+  <%= @form.student.new_record? ? '生徒作成' : '生徒編集' %>
 </h1>
 
-<%= render 'form', student: @student %>
+<%= render 'form',  form: @form %>

@@ -69,7 +69,7 @@ end
 gem "foreman"
 gem "ransack", "~> 4.3"
 gem "image_processing", "~> 1.2"
-gem "kaminari"
+gem 'kaminari', github: 'kaminari/kaminari'
 gem "omniauth"
 gem "omniauth-google-oauth2"
 gem "dotenv-rails"
