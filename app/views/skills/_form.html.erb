@@ -1,10 +1,20 @@
 <div class="max-w-xl mx-auto p-6 bg-white shadow-md rounded-md">
-  <%= form_with(model: skill, local: true, data: { turbo: false }) do |form| %>
-    <% if skill.errors.any? %>
-      <div class="bg-red-100 text-red-700 p-3 mb-4 rounded">
-        <p><%= pluralize(skill.errors.count, "エラー") %>があります:</p>
-        <ul>
-          <% skill.errors.full_messages.each do |msg| %>
+  <%= form_with(
+      model: form,
+      scope: :skill_form,
+      url: form.skill.new_record? ? skills_path : skill_path(form.skill),
+      method: form.skill.new_record? ? :post : :patch,
+      local: true,
+      data: { turbo: false }
+    ) do |f| %>
+
+    <% if form.errors.any? %>
+      <div class="bg-red-100 text-red-700 p-3 mb-4 rounded border border-red-500">
+        <p class="font-bold">
+          <%= pluralize(form.errors.count, "エラー") %>があります:
+        </p>
+        <ul class="list-disc list-inside">
+          <% form.errors.full_messages.each do |msg| %>
             <li><%= msg %></li>
           <% end %>
         </ul>
@@ -12,8 +22,9 @@
     <% end %>
 
     <div class="mb-4">
-      <%= form.label :name, '特技名', class: 'block font-bold mb-1' %>
-      <%= form.text_field :name, class: 'border rounded w-full p-2' %>
+      <%= f.label :name, '特技名', class: 'block font-bold mb-1' %>
+      <%= f.text_field :name,
+            class: "border rounded w-full p-2 #{'border-red-500' if form.errors[:name].any?}" %>
     </div>
 
     <div class="mb-4" data-controller="filter">
@@ -23,15 +34,22 @@
             data: { filter_target: "input", action: "input->filter#search" } %>
 
       <p class="font-bold mb-2">対象生徒を選択</p>
-      <% students.each do |student| %>
+      <% form.teacher.students.each do |student| %>
         <label class="block" data-filter-target="item">
-          <%= check_box_tag "skill[student_ids][]", student.id, skill.student_ids.include?(student.id), class: 'mr-2' %>
+          <%= check_box_tag "skill_form[student_ids][]", student.id,
+                form.student_ids.include?(student.id),
+                class: 'mr-2' %>
           <%= student.name %>
         </label>
       <% end %>
     </div>
 
-    <%= form.submit skill.new_record? ? '追加' : '更新', class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded' %>
-    <%= link_to '特技一覧に戻る', skills_path, class: "bg-blue-500 text-white font-bold px-6 py-2 rounded" %>
+    <div class="flex justify-between mt-6">
+      <%= f.submit form.skill.new_record? ? '作成' : '更新',
+            class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded' %>
+      <%= link_to '特技一覧に戻る', skills_path,
+            class: "bg-gray-300 text-gray-800 font-bold px-6 py-2 rounded" %>
+    </div>
+
   <% end %>
 </div>
