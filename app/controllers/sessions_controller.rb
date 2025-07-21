@@ -12,6 +12,7 @@ class SessionsController < ApplicationController
     if teacher.new_record?
       teacher.name = auth.info.name
       teacher.password = SecureRandom.hex(10)
+      teacher.oauth_only = true
       teacher.save!
     end
 
