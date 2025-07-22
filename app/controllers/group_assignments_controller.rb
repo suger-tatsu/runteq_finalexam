@@ -3,19 +3,8 @@ class GroupAssignmentsController < ApplicationController
   before_action :set_group_assignment, only: [ :show, :edit_groups, :update_groups, :destroy, :share_settings, :update_sharing, :toggle_sharing ]
 
   def index
-    @group_assignments = current_teacher.group_assignments
-    @group_assignments = @group_assignments.where("title ILIKE ?", "%#{params[:q]}%") if params[:q].present?
-
-    case params[:sort]
-    when "title"
-      @group_assignments = @group_assignments.order(:title)
-    when "created_at_desc"
-      @group_assignments = @group_assignments.order(created_at: :desc)
-    when "created_at_asc"
-      @group_assignments = @group_assignments.order(created_at: :asc)
-    end
-
-    @group_assignments = @group_assignments.page(params[:page]).per(12)
+    permitted = params.permit(:q, :sort, :page)
+    @group_assignments = GroupAssignmentQuery.new(current_teacher.group_assignments, permitted).call
   end
 
   def autocomplete
