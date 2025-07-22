@@ -17,6 +17,7 @@ class SessionsController < ApplicationController
     end
 
     session[:teacher_id] = teacher.id
+    remember(teacher)
     redirect_to students_path, notice: "#{teacher.name}としてログインしました"
   end
 
