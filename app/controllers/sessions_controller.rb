@@ -12,10 +12,12 @@ class SessionsController < ApplicationController
     if teacher.new_record?
       teacher.name = auth.info.name
       teacher.password = SecureRandom.hex(10)
+      teacher.oauth_only = true
       teacher.save!
     end
 
     session[:teacher_id] = teacher.id
+    remember(teacher)
     redirect_to students_path, notice: "#{teacher.name}としてログインしました"
   end
 

@@ -3,19 +3,8 @@ class GroupAssignmentsController < ApplicationController
   before_action :set_group_assignment, only: [ :show, :edit_groups, :update_groups, :destroy, :share_settings, :update_sharing, :toggle_sharing ]
 
   def index
-    @group_assignments = current_teacher.group_assignments
-    @group_assignments = @group_assignments.where("title ILIKE ?", "%#{params[:q]}%") if params[:q].present?
-
-    case params[:sort]
-    when "title"
-      @group_assignments = @group_assignments.order(:title)
-    when "created_at_desc"
-      @group_assignments = @group_assignments.order(created_at: :desc)
-    when "created_at_asc"
-      @group_assignments = @group_assignments.order(created_at: :asc)
-    end
-
-    @group_assignments = @group_assignments.page(params[:page]).per(12)
+    permitted = params.permit(:q, :sort, :page)
+    @group_assignments = GroupAssignmentQuery.new(current_teacher.group_assignments, permitted).call
   end
 
   def autocomplete
@@ -24,19 +13,18 @@ class GroupAssignmentsController < ApplicationController
   end
 
   def new
-    @group_assignment = GroupAssignment.new
+    @form = GroupAssignmentForm.new(teacher: current_teacher)
     @students = current_teacher.students
     @skills = current_teacher.skills
   end
 
   def create
-    @group_assignment = GroupAssignment.new_from_params(group_assignment_params, current_teacher)
-
-    if @group_assignment.save_and_assign_groups
+    @form = GroupAssignmentForm.new(group_assignment_params, teacher: current_teacher)
+    if @form.save
       redirect_to group_assignments_path, notice: "グループ分けを作成しました"
     else
-      Rails.logger.error("保存失敗: #{@group_assignment.errors.full_messages.join(', ')}")
-      flash.now[:alert] = @group_assignment.errors.full_messages.join(", ")
+      Rails.logger.error("保存失敗: #{@form.errors.full_messages.join(', ')}")
+      flash.now[:alert] = @form.errors.full_messages.join(", ")
       @students = current_teacher.students
       @skills = current_teacher.skills
       render :new

@@ -1,5 +1,5 @@
 <h1 class="text-2xl font-bold mb-6 text-center">
-  <%= @group_assignment.new_record? ? 'グループ分け作成' : 'グループ分け編集' %>
+  <%= @form.group_assignment.new_record? ? 'グループ分け作成' : 'グループ分け編集' %>
 </h1>
 
-<%= render 'form', group_assignment: @group_assignment, students: @students %>
+<%= render 'form', group_assignment: @form, students: @students, skills: @skills %>

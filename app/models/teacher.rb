@@ -19,7 +19,7 @@ class Teacher < ApplicationRecord
   end
 
   def oauth_only_account?
-    created_at == updated_at && password_digest.present?
+    oauth_only == true
   end
 
   def remember
