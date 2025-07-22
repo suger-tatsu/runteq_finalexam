@@ -10,8 +10,8 @@ RSpec.describe GroupAssignmentForm, type: :model do
       title: "フォーム経由の課題",
       group_count: 2,
       strategy: "even",
-      student_ids: [student1.id, student2.id],
-      ability_selection: ["athletic_ability"],
+      student_ids: [ student1.id, student2.id ],
+      ability_selection: [ "athletic_ability" ],
       ability_weights: { "athletic_ability" => "2" }
     }
 
