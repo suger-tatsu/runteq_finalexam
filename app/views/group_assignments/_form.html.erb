@@ -1,8 +1,16 @@
-<div class="max-w-xl mx-auto p-6 bg-white shadow-md rounded-md">
-  <%= form_with(model: group_assignment, local: true, data: { turbo: false }) do |form| %>
+
+<div class="max-w-2xl mx-auto bg-white p-6 rounded shadow">
+  <h2 class="text-2xl font-bold mb-6 text-center">
+    <%= group_assignment.group_assignment.new_record? ? 'グループ分け作成' : 'グループ分け編集' %>
+  </h2>
+
+  <%= form_with url: group_assignment.group_assignment.new_record? ? group_assignments_path : group_assignment_path(group_assignment.group_assignment),
+                scope: :group_assignment,
+                local: true do |form| %>
+
     <% if group_assignment.errors.any? %>
       <div class="bg-red-100 text-red-700 p-3 mb-4 rounded">
-        <p><%= pluralize(group_assignment.errors.count, "エラー") %>があります:</p>
+        <p><%= pluralize(group_assignment.errors.count, "件のエラー") %>があります:</p>
         <ul>
           <% group_assignment.errors.full_messages.each do |msg| %>
             <li><%= msg %></li>
@@ -11,100 +19,110 @@
       </div>
     <% end %>
 
+    <!-- タイトル -->
     <div class="mb-4">
       <%= form.label :title, 'グループ分けタイトル', class: 'block font-bold mb-1' %>
-      <%= form.text_field :title, class: 'border rounded w-full p-2' %>
+      <%= form.text_field :title, class: 'w-full border rounded p-2' %>
     </div>
 
+    <!-- グループ数 -->
     <div class="mb-4">
       <%= form.label :group_count, 'グループ数', class: 'block font-bold mb-1' %>
-      <%= form.number_field :group_count, min: 2, max: 10, class: 'border rounded w-full p-2' %>
+      <%= form.number_field :group_count, min: 2, max: 10, class: 'w-full border rounded p-2' %>
     </div>
 
+    <!-- 分け方 -->
     <div class="mb-4">
       <%= form.label :strategy, '分け方の選択', class: 'block font-bold mb-1' %>
       <%= form.select :strategy,
             [['能力差で分ける', 'by_ability'], ['能力を均等に分散', 'even']],
             { prompt: '選択してください' },
-            class: 'border rounded w-full p-2' %>
+            class: 'w-full border rounded p-2' %>
     </div>
 
+    <!-- 生徒選択 -->
     <div class="mb-4" data-controller="filter select-all">
-    <label class="block font-bold mb-1">生徒検索</label>
-    <%= text_field_tag :student_search, nil,
-          class: "border rounded w-full p-2 mb-2",
-          data: { filter_target: "input", action: "input->filter#search" } %>
+      <label class="block font-bold mb-1">生徒検索</label>
+      <%= text_field_tag :student_search, nil,
+            class: "w-full border rounded p-2 mb-2",
+            data: { filter_target: "input", action: "input->filter#search" } %>
 
-    <div class="mb-2">
-      <label>
-        <input type="checkbox" data-select-all-target="source" data-action="select-all#toggleAll">
-        全員選択
-      </label>
-    </div>
-
-    <div class="h-64 overflow-y-scroll border rounded p-2 bg-gray-50">
-      <% students.each do |student| %>
-        <label class="block" data-filter-target="item">
-          <%= check_box_tag "group_assignment[student_ids][]",
-                            student.id,
-                            group_assignment.student_ids&.include?(student.id),
-                            class: "mr-2",
-                            data: { select_all_target: "checkbox" } %>
-          <%= student.name %>
+      <div class="mb-2">
+        <label>
+          <input type="checkbox" data-select-all-target="source" data-action="select-all#toggleAll">
+          全員選択
         </label>
-      <% end %>
-    </div>
-  </div>
-
-    <div class="mb-4">
-  <p class="font-bold mb-2">能力を選択（重みを設定）</p>
-    <% {
-      "athletic_ability" => "運動神経",
-      "leadership" => "リーダーシップ",
-      "cooperation" => "協調性",
-      "science" => "理系",
-      "humanities" => "文系"
-    }.each do |ability, label| %>
-      <div class="flex items-center gap-2 mb-2">
-        <label class="flex items-center gap-2">
-          <%= check_box_tag "group_assignment[ability_selection][]", ability, group_assignment.ability_selection.include?(ability), class: 'mr-2' %>
-          <%= label %>
-        </label>
-        <%= number_field_tag "group_assignment[ability_weights][#{ability}]",
-              group_assignment.ability_weights&.dig(ability) || 5,
-              in: 0..10,
-              step: 1,
-              class: "border rounded p-1 w-20",
-              placeholder: "重み" %>
       </div>
-    <% end %>
-  </div>
 
-  <div class="mb-4" data-controller="filter">
-    <p class="font-bold mb-2">特技を基準にばらけさせる（1つだけ）</p>
+      <div class="h-64 overflow-y-scroll border rounded p-2 bg-gray-50">
+        <% students.each do |student| %>
+          <label class="block" data-filter-target="item">
+            <%= check_box_tag "group_assignment[student_ids][]",
+                              student.id,
+                              group_assignment.student_ids&.include?(student.id),
+                              class: "mr-2",
+                              data: { select_all_target: "checkbox" } %>
+            <%= student.name %>
+          </label>
+        <% end %>
+      </div>
+    </div>
 
-    <%= label_tag :skill_search, "特技検索", class: "block font-bold mb-1" %>
-    <%= text_field_tag :skill_search, nil,
-          class: "border rounded w-full p-2 mb-2",
-          data: { filter_target: "input", action: "input->filter#search" } %>
-
-    <div class="h-64 overflow-y-scroll border rounded p-2 bg-gray-50">
-      <label class="block" data-filter-target="item">
-       <%= radio_button_tag "group_assignment[skill_ids][]", "", group_assignment.skill_ids.blank?, class: 'mr-2' %>
-        なし（特技を考慮しない）
-      </label>
-
-      <% @skills.each do |skill| %>
-        <label class="block" data-filter-target="item">
-          <%= radio_button_tag "group_assignment[skill_ids][]", skill.id, group_assignment.skill_ids&.include?(skill.id), class: 'mr-2' %>
-          <%= skill.name %>
-        </label>
+    <!-- 能力＋重み -->
+    <div class="mb-4">
+      <p class="font-bold mb-2">能力を選択（重みを設定）</p>
+      <% {
+        "athletic_ability" => "運動神経",
+        "leadership" => "リーダーシップ",
+        "cooperation" => "協調性",
+        "science" => "理系",
+        "humanities" => "文系"
+      }.each do |ability, label| %>
+        <div class="flex items-center gap-2 mb-2">
+          <label class="flex items-center gap-2">
+            <%= check_box_tag "group_assignment[ability_selection][]", ability, group_assignment.ability_selection.include?(ability), class: 'mr-2' %>
+            <%= label %>
+          </label>
+          <%= number_field_tag "group_assignment[ability_weights][#{ability}]",
+                group_assignment.ability_weights&.dig(ability) || 5,
+                in: 0..10,
+                step: 1,
+                class: "border rounded p-1 w-20",
+                placeholder: "重み" %>
+        </div>
       <% end %>
     </div>
-  </div>
 
-    <%= form.submit group_assignment.new_record? ? '作成' : '更新',
-          class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded' %>
-    <%= link_to 'グループ一覧に戻る', group_assignments_path, class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded' %>
+    <!-- 特技 -->
+    <div class="mb-4" data-controller="filter">
+      <p class="font-bold mb-2">特技を基準にばらけさせる（1つだけ）</p>
+
+      <%= label_tag :skill_search, "特技検索", class: "block font-bold mb-1" %>
+      <%= text_field_tag :skill_search, nil,
+            class: "w-full border rounded p-2 mb-2",
+            data: { filter_target: "input", action: "input->filter#search" } %>
+
+      <div class="h-64 overflow-y-scroll border rounded p-2 bg-gray-50">
+        <label class="block" data-filter-target="item">
+          <%= radio_button_tag "group_assignment[skill_ids][]", "", group_assignment.skill_ids.blank?, class: 'mr-2' %>
+          なし（特技を考慮しない）
+        </label>
+
+        <% skills.each do |skill| %>
+          <label class="block" data-filter-target="item">
+            <%= radio_button_tag "group_assignment[skill_ids][]", skill.id, group_assignment.skill_ids&.include?(skill.id), class: 'mr-2' %>
+            <%= skill.name %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- ボタン -->
+    <div class="flex justify-between mt-6">
+      <%= form.submit group_assignment.group_assignment.new_record? ? '作成' : '更新',
+            class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded' %>
+      <%= link_to 'グループ一覧に戻る', group_assignments_path, class: 'bg-gray-300 text-black font-bold py-2 px-4 rounded' %>
+    </div>
+
   <% end %>
 </div>

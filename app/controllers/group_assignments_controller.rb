@@ -13,19 +13,18 @@ class GroupAssignmentsController < ApplicationController
   end
 
   def new
-    @group_assignment = GroupAssignment.new
+    @form = GroupAssignmentForm.new(teacher: current_teacher)
     @students = current_teacher.students
     @skills = current_teacher.skills
   end
 
   def create
-    @group_assignment = GroupAssignment.new_from_params(group_assignment_params, current_teacher)
-
-    if @group_assignment.save_and_assign_groups
+    @form = GroupAssignmentForm.new(group_assignment_params, teacher: current_teacher)
+    if @form.save
       redirect_to group_assignments_path, notice: "グループ分けを作成しました"
     else
-      Rails.logger.error("保存失敗: #{@group_assignment.errors.full_messages.join(', ')}")
-      flash.now[:alert] = @group_assignment.errors.full_messages.join(", ")
+      Rails.logger.error("保存失敗: #{@form.errors.full_messages.join(', ')}")
+      flash.now[:alert] = @form.errors.full_messages.join(", ")
       @students = current_teacher.students
       @skills = current_teacher.skills
       render :new
